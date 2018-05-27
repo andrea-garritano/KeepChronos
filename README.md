@@ -1,6 +1,7 @@
 # KeepChronos
 [![Build Status](https://travis-ci.org/andryxxx/KeepChronos.svg?branch=master)](https://travis-ci.org/andryxxx/KeepChronos)
 [![Coverage Status](https://coveralls.io/repos/github/andryxxx/KeepChronos/badge.svg?branch=master)](https://coveralls.io/github/andryxxx/KeepChronos?branch=master)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.garritano%3Akeepchronos&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.garritano%3Akeepchronos)
 
 Simple Time Tracker developed with awesome advanced programming techniques
 
