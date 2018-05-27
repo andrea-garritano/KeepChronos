@@ -3,4 +3,4 @@ language: java
 install: true
  
 script:
-- mvn -f keepchronos/pom.xml clean verify
+- mvn -f keepchronos/pom.xml clean verify -Pjacoco coveralls:report 
