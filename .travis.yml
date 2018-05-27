@@ -3,4 +3,4 @@ language: java
 install: true
  
 script:
-- mvn -f hello-git/pom.xml clean verify -Pjacoco coveralls:report 
+- mvn -f keepchronos/pom.xml clean verify
