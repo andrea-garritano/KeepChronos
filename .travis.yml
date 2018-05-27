@@ -1,6 +1,11 @@
 language: java
+dist: trusty
 # skip installation step
 install: true
- 
+
+addons:
+ sonarcloud:
+  organization: "andryxxx-github"
+
 script:
-- mvn -f keepchronos/pom.xml clean verify -Pjacoco coveralls:report 
+- mvn -f hello-git/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
