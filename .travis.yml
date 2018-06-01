@@ -3,6 +3,9 @@ dist: trusty
 # skip installation step
 install: true
 
+services:
+  - mysql
+
 addons:
  sonarcloud:
   organization: "andryxxx-github"

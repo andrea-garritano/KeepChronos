@@ -35,7 +35,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 				of DB that is created if not exist -->
 
 			<property name="hibernate.connection.username" value="root" />
-			<property name="hibernate.connection.password" value="root" />
+			<property name="hibernate.connection.password" value="" />
 			<!-- username and password of your mySql connection -->
 
 			<property name="hibernate.show_sql" value="true" />
