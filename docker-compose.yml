@@ -38,12 +38,6 @@ services:
     environment:
       - MYSQL_DATABASE=timekeep
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
 
 networks:
   sonarnet:
