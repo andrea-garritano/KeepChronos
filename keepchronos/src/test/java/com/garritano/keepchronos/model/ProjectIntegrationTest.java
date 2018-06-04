@@ -61,11 +61,14 @@ public class ProjectIntegrationTest {
 				.getTitle()
 				.equals(project.getTitle()));
 		
-		// ... and the same description
-				assertTrue(((Project) query.getSingleResult())
-						.getDescription()
-						.equals(project.getDescription()));
-	}
+		// and the same description
+		assertTrue(((Project) query.getSingleResult())
+				.getDescription()
+				.equals(project.getDescription()));
+		
+		// and the same id
+		assertTrue(((Project) query.getSingleResult()).getId() == (project.getId()));
+		}
 	
 	@Test
 	public void testMultiplePersistence() {
