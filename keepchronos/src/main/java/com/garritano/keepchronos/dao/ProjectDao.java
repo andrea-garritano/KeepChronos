@@ -23,7 +23,4 @@ public class ProjectDao {
 		entityManagerFactory.close();
 	}
 	
-	public Project findById(Long projectId) {
-		return entityManager.find(Project.class, projectId);
-	}
 }
