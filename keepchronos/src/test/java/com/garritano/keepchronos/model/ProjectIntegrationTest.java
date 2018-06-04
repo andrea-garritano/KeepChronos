@@ -46,14 +46,25 @@ public class ProjectIntegrationTest {
 		entityManager.getTransaction().commit();
 		entityManager.clear();
 		
-		// Create a fresh, new EntityManager
+		// Create a new EntityManager
 		entityManager = entityManagerFactory.createEntityManager();
 		
-		// Perform a simple query for all the Message entities
+		// Perform a simple query for all the Project entities
 		Query query = entityManager.createQuery("select p from Project p");
-
+		
 		// We should have only one project in the database
-		assertTrue(query.getResultList().size() == 1);
+		assertTrue(query.getResultList()
+				.size() == 1);
+		
+		// We should have the same title
+		assertTrue(((Project) query.getSingleResult())
+				.getTitle()
+				.equals(project.getTitle()));
+		
+		// ... and the same description
+				assertTrue(((Project) query.getSingleResult())
+						.getDescription()
+						.equals(project.getDescription()));
 	}
 	
 	@Test
@@ -65,18 +76,18 @@ public class ProjectIntegrationTest {
 		entityManager.persist(project1);
 		
 		Project project2 = new Project();
-		project2.setTitle("First project");
-		project2.setDescription("This is my first project, hi!");
+		project2.setTitle("Second project");
+		project2.setDescription("This is my second project, wow!");
 		
 		entityManager.persist(project2);
 		
 		entityManager.getTransaction().commit();
 		entityManager.clear();
 		
-		// Create a fresh, new EntityManager
+		// Create a new EntityManager
 		entityManager = entityManagerFactory.createEntityManager();
 		
-		// Perform a simple query for all the Message entities
+		// Perform a simple query for all the Project entities
 		Query query = entityManager.createQuery("select p from Project p");
 
 		// We should have 2 projects in the database
