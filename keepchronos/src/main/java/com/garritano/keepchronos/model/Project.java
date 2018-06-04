@@ -31,4 +31,19 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Project)) {
+			return false;
+		}
+		Project other = (Project) obj;
+		return id.equals(other.getId());
+	}
 }
