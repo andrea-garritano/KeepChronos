@@ -53,8 +53,7 @@ public class ProjectIntegrationTest {
 		Query query = entityManager.createQuery("select p from Project p");
 		
 		// We should have only one project in the database
-		assertTrue(query.getResultList()
-				.size() == 1);
+		assertTrue(query.getResultList().size() == 1);
 		
 		// We should have the same title
 		assertTrue(((Project) query.getSingleResult())
