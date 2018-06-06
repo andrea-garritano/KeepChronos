@@ -1,5 +1,7 @@
 package com.garritano.keepchronos.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,6 +19,18 @@ public class ProjectDao {
 		entityManager.persist(project);
 		closeEm();
 	}
+	
+	public List<Project> getAll() {
+		initEm();
+		List<Project> result = entityManager.createQuery("select p from Project p").getResultList();
+		closeEm();
+		
+		if(result.isEmpty()) {
+			return null;
+		}
+		return result;
+	}
+	
 	
 	private void initEm() {
 		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);

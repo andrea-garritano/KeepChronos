@@ -50,6 +50,12 @@ public class ProjectDaoIntegrationTest {
 											.getSingleResult());
 	}
 	
+	@Test
+	public void testEmptyGetAll() {
+		ProjectDao projectDao = new ProjectDao();
+		assertNull(projectDao.getAll());
+	}
+	
 	@After
 	public void tearDown() {
 		if ( entityManager.getTransaction().isActive() ) {
