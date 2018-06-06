@@ -19,6 +19,7 @@ public class ProjectDaoIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
+	private ProjectDao projectDao;
 	
 	@BeforeClass
 	public static void setUpClass() {
@@ -34,6 +35,7 @@ public class ProjectDaoIntegrationTest {
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
 		entityManager.getTransaction().begin();
+		projectDao = new ProjectDao(entityManager);
 	}
 	
 	@Test
@@ -41,10 +43,7 @@ public class ProjectDaoIntegrationTest {
 		Project project = new Project();
 		project.setTitle("First project");
 		project.setDescription("This is my first project, hi!");
-		
-		ProjectDao projectDao = new ProjectDao();
 		projectDao.save(project);
-
 		assertEquals(project, entityManager.createQuery("from Project where id =:id", Project.class)
 											.setParameter("id", project.getId())
 											.getSingleResult());
@@ -52,7 +51,6 @@ public class ProjectDaoIntegrationTest {
 	
 	@Test
 	public void testEmptyGetAll() {
-		ProjectDao projectDao = new ProjectDao();
 		assertNull(projectDao.getAll());
 	}
 	
