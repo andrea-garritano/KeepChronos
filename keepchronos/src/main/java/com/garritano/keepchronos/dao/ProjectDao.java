@@ -20,4 +20,8 @@ public class ProjectDao {
 	public List<Project> getAll() {
 		return entityManager.createQuery("select p from Project p", Project.class).getResultList();
 	}
+	
+	public Project findById(Long id) {
+		return entityManager.find(Project.class, id);
+	}
 }

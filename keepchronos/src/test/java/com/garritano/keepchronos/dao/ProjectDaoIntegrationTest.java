@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.hibernate.boot.model.source.spi.AssociationSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,12 +41,12 @@ public class ProjectDaoIntegrationTest {
 	
 	@Test
 	public void testSave() {
-		Project project = new Project();
-		project.setTitle("First project");
-		project.setDescription("This is my first project, hi!");
-		projectDao.save(project);
-		assertEquals(project, entityManager.createQuery("from Project where id =:id", Project.class)
-											.setParameter("id", project.getId())
+		Project project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
+		projectDao.save(project1);
+		assertEquals(project1, entityManager.createQuery("from Project where id =:id", Project.class)
+											.setParameter("id", project1.getId())
 											.getSingleResult());
 	}
 	
@@ -56,12 +57,12 @@ public class ProjectDaoIntegrationTest {
 	
 	@Test
 	public void testOneGetAll() {
-		Project project = new Project();
-		project.setTitle("First project");
-		project.setDescription("This is my first project, hi!");
-		projectDao.save(project);
+		Project project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
+		projectDao.save(project1);
 		
-		assertEquals(project, projectDao.getAll().get(0));
+		assertEquals(project1, projectDao.getAll().get(0));
 		assertTrue(projectDao.getAll().size() == 1);
 	}
 	
@@ -78,6 +79,21 @@ public class ProjectDaoIntegrationTest {
 		projectDao.save(project2);
 		
 		assertTrue(projectDao.getAll().size() == 2);
+	}
+	
+	@Test
+	public void testEmptyFindbyId() {
+		assertNull(projectDao.findById((long) 34214342));
+	}
+	
+	@Test
+	public void testNotEmptyFindbyId() {
+		Project project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
+		projectDao.save(project1);
+		
+		assertEquals(project1, projectDao.findById(project1.getId()));
 	}
 	
 	@After
