@@ -24,4 +24,8 @@ public class ProjectDao {
 	public Project findById(Long id) {
 		return entityManager.find(Project.class, id);
 	}
+	
+	public void update(Project project) {
+		entityManager.merge(project);
+	}
 }

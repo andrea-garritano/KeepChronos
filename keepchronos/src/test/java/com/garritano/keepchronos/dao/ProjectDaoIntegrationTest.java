@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.hibernate.boot.model.source.spi.AssociationSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -90,6 +89,15 @@ public class ProjectDaoIntegrationTest {
 		projectDao.save(project1);
 		
 		assertEquals(project1, projectDao.findById(project1.getId()));
+	}
+	
+	@Test
+	public void testUpdate() {
+		projectDao.save(project1);
+		project1.setDescription("new description!");
+		projectDao.update(project1);
+		
+		assertEquals(project1.getDescription(), projectDao.findById(project1.getId()).getDescription());
 	}
 	
 	@After
