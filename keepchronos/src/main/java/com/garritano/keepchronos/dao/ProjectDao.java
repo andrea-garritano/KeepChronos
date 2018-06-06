@@ -13,10 +13,17 @@ public class ProjectDao {
 	protected EntityManager entityManager;
 	
 	public void save(Project project) {
+		initEm();
+		entityManager.persist(project);
+		closeEm();
+	}
+	
+	private void initEm() {
 		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		entityManager = entityManagerFactory.createEntityManager();
 		entityManager.getTransaction().begin();
-		entityManager.persist(project);
+	}
+	private void closeEm() {
 		entityManager.getTransaction().commit();
 		entityManager.clear();
 		entityManager.close();
