@@ -18,6 +18,9 @@ public class ProjectIntegrationTest {
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
 	
+	private Project project1;
+	private Project project2;
+	
 	@BeforeClass
 	public static void setUpClass() {
 		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -33,15 +36,20 @@ public class ProjectIntegrationTest {
 		entityManager.getTransaction().commit();
 		
 		entityManager.getTransaction().begin();
+		
+		project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
+		
+		project2 = new Project();
+		project2.setTitle("Second project");
+		project2.setDescription("This is my second project, wow!");
 	}
 	
 	@Test
 	public void testBasicPersistence() {
-		Project project = new Project();
-		project.setTitle("First project");
-		project.setDescription("This is my first project, hi!");
 		
-		entityManager.persist(project);
+		entityManager.persist(project1);
 		
 		entityManager.getTransaction().commit();
 		entityManager.clear();
@@ -58,29 +66,21 @@ public class ProjectIntegrationTest {
 		// We should have the same title
 		assertTrue(((Project) query.getSingleResult())
 				.getTitle()
-				.equals(project.getTitle()));
+				.equals(project1.getTitle()));
 		
 		// and the same description
 		assertTrue(((Project) query.getSingleResult())
 				.getDescription()
-				.equals(project.getDescription()));
+				.equals(project1.getDescription()));
 		
 		// and the same id
-		assertTrue(((Project) query.getSingleResult()).getId() == (project.getId()));
+		assertTrue(((Project) query.getSingleResult()).getId() == (project1.getId()));
 		}
 	
 	@Test
 	public void testMultiplePersistence() {
-		Project project1 = new Project();
-		project1.setTitle("First project");
-		project1.setDescription("This is my first project, hi!");
-		
+
 		entityManager.persist(project1);
-		
-		Project project2 = new Project();
-		project2.setTitle("Second project");
-		project2.setDescription("This is my second project, wow!");
-		
 		entityManager.persist(project2);
 		
 		entityManager.getTransaction().commit();
@@ -98,6 +98,8 @@ public class ProjectIntegrationTest {
 	
 	@After
 	public void tearDown() {
+		project1 = null;
+		project2 = null;
 		entityManager.close();
 	}
 
