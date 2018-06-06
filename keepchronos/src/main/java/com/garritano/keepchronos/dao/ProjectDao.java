@@ -18,8 +18,6 @@ public class ProjectDao {
 	}
 	
 	public List<Project> getAll() {
-		List<Project> result = entityManager.createQuery("select p from Project p").getResultList();
-		
-		return result;
+		return entityManager.createQuery("select p from Project p").getResultList();
 	}
 }
