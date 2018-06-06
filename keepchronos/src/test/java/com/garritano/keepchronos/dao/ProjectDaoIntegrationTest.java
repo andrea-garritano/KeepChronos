@@ -54,6 +54,33 @@ public class ProjectDaoIntegrationTest {
 		assertNull(projectDao.getAll());
 	}
 	
+	@Test
+	public void testOneGetAll() {
+		Project project = new Project();
+		project.setTitle("First project");
+		project.setDescription("This is my first project, hi!");
+		projectDao.save(project);
+		
+		assertEquals(project, projectDao.getAll().get(0));
+		assertTrue(projectDao.getAll().size() == 1);
+	}
+	
+	@Test
+	public void testMultipleGetAll() {
+		Project project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
+		projectDao.save(project1);
+		
+		Project project2 = new Project();
+		project2.setTitle("Second project");
+		project2.setDescription("This is my second project, wow!");
+		projectDao.save(project2);
+		
+		assertTrue(projectDao.getAll().size() == 2);
+	}
+	
+	
 	@After
 	public void tearDown() {
 		if ( entityManager.getTransaction().isActive() ) {
