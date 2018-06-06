@@ -98,9 +98,6 @@ public class ProjectIntegrationTest {
 	
 	@After
 	public void tearDown() {
-		if ( entityManager.getTransaction().isActive() ) {
-			entityManager.getTransaction().rollback();
-		}
 		entityManager.close();
 	}
 
