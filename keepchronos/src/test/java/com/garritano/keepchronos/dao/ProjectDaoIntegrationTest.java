@@ -51,7 +51,7 @@ public class ProjectDaoIntegrationTest {
 	
 	@Test
 	public void testEmptyGetAll() {
-		assertNull(projectDao.getAll());
+		assertTrue(projectDao.getAll().size() == 0);
 	}
 	
 	@Test
@@ -79,7 +79,6 @@ public class ProjectDaoIntegrationTest {
 		
 		assertTrue(projectDao.getAll().size() == 2);
 	}
-	
 	
 	@After
 	public void tearDown() {
