@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.hibernate.boot.model.source.spi.AssociationSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,9 +55,6 @@ public class ProjectIntegrationTest {
 		entityManager.getTransaction().commit();
 		entityManager.clear();
 		
-		// Create a new EntityManager
-		entityManager = entityManagerFactory.createEntityManager();
-		
 		// Perform a simple query for all the Project entities
 		Query query = entityManager.createQuery("select p from Project p");
 		
@@ -86,14 +84,40 @@ public class ProjectIntegrationTest {
 		entityManager.getTransaction().commit();
 		entityManager.clear();
 		
-		// Create a new EntityManager
-		entityManager = entityManagerFactory.createEntityManager();
-		
 		// Perform a simple query for all the Project entities
 		Query query = entityManager.createQuery("select p from Project p");
 
 		// We should have 2 projects in the database
 		assertTrue(query.getResultList().size() == 2);
+	}
+	
+	@Test
+	public void testEqualsWithNull() {
+		project1.setId((long) 1);
+		assertFalse(project1.equals(null));
+	}
+	
+	@Test
+	public void testEqualsWithOtherClass() {
+		assertFalse(project1.equals(new Object()));
+	}
+	
+	@Test
+	public void testEqualsWithIdNull() {
+		project1.setId((long) 1);
+		Project projectIdNull = new Project();
+		projectIdNull.setId(null);
+		
+		assertFalse(project1.equals(projectIdNull));
+	}
+	
+	@Test
+	public void testEqualsWithDifferentId() {
+		project1.setId((long) 1);
+		Project projectDifferentId = new Project();
+		projectDifferentId.setId((long) -1);
+		
+		assertFalse(project1.equals(projectDifferentId));
 	}
 	
 	@After
