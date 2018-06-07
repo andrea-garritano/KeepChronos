@@ -34,18 +34,23 @@ public class ProjectTest {
 	
 	@Test
 	public void testEqualsWithIdNull() {
-		Project projectIdNull = new Project();
-		projectIdNull.setId(null);
+		project2.setId(null);
 		
-		assertFalse(project1.equals(projectIdNull));
+		assertFalse(project1.equals(project2));
 	}
 	
 	@Test
 	public void testEqualsWithDifferentId() {
-		Project projectDifferentId = new Project();
-		projectDifferentId.setId((long) -1);
+		project2.setId((long) -1);
 		
-		assertFalse(project1.equals(projectDifferentId));
+		assertFalse(project1.equals(project2));
+	}
+	
+	@Test
+	public void testEqualsWithFirstIdNull() {
+		project1.setId(null);
+		
+		assertFalse(project1.equals(project2));
 	}
 	
 	@Test
@@ -56,6 +61,7 @@ public class ProjectTest {
 	@Test
 	public void testHashCodeFalse() {
 		project2.setId((long) 2);
+		
 		assertFalse(project1.hashCode() == project2.hashCode());
 	}
 	
