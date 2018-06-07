@@ -91,35 +91,6 @@ public class ProjectIntegrationTest {
 		assertTrue(query.getResultList().size() == 2);
 	}
 	
-	@Test
-	public void testEqualsWithNull() {
-		project1.setId((long) 1);
-		assertFalse(project1.equals(null));
-	}
-	
-	@Test
-	public void testEqualsWithOtherClass() {
-		assertFalse(project1.equals(new Object()));
-	}
-	
-	@Test
-	public void testEqualsWithIdNull() {
-		project1.setId((long) 1);
-		Project projectIdNull = new Project();
-		projectIdNull.setId(null);
-		
-		assertFalse(project1.equals(projectIdNull));
-	}
-	
-	@Test
-	public void testEqualsWithDifferentId() {
-		project1.setId((long) 1);
-		Project projectDifferentId = new Project();
-		projectDifferentId.setId((long) -1);
-		
-		assertFalse(project1.equals(projectDifferentId));
-	}
-	
 	@After
 	public void tearDown() {
 		project1 = null;
