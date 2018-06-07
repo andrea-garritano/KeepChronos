@@ -54,6 +54,13 @@ public class ProjectTest {
 	}
 	
 	@Test
+	public void testEqualsWithFirstNullSecondDifferent() {
+		project1.setId(null);
+		
+		assertFalse(project1.equals(project2));
+	}
+	
+	@Test
 	public void testHashCodeTrue() {
 		assertTrue(project1.hashCode() == project2.hashCode());
 	}
@@ -63,6 +70,13 @@ public class ProjectTest {
 		project2.setId((long) 2);
 		
 		assertFalse(project1.hashCode() == project2.hashCode());
+	}
+	
+	@Test
+	public void testHashCodeWithNullId() {
+		project1.setId(null);
+		project2.setId(null);
+		assertTrue(project1.hashCode() == project2.hashCode());
 	}
 	
 	@After
