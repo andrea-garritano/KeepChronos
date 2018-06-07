@@ -15,6 +15,7 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 			(Hibernate) -->
 
 		<class>com.garritano.keepchronos.model.Project</class>
+		<class>com.garritano.keepchronos.model.Task</class>
 		<!-- Specify names of managed persistable classes -->
 
 		<properties>
