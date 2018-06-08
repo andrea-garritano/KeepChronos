@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 public class Task extends BasicEntity{
 	
 	private Project project;
+	private int duration;
 	
 	@ManyToOne
 	public Project getProject() {
@@ -15,5 +16,13 @@ public class Task extends BasicEntity{
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 }

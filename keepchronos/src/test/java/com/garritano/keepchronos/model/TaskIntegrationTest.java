@@ -59,10 +59,12 @@ public class TaskIntegrationTest {
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setProject(project_another);
+		task1.setDuration(30);
 		
 		task2 = new Task();
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
+		task2.setDuration(20);
 	}
 	
 	@Test
@@ -72,9 +74,6 @@ public class TaskIntegrationTest {
 		
 		entityManager.getTransaction().commit();
 		entityManager.clear();
-		
-		// Create a new EntityManager
-		entityManager = entityManagerFactory.createEntityManager();
 		
 		// Perform a simple query for all the Task entities
 		Query query = entityManager.createQuery("select p from Task p");
@@ -97,6 +96,9 @@ public class TaskIntegrationTest {
 		
 		//and the same associate project
 		assertTrue(((Task)query.getSingleResult()).getProject().equals(project_another));
+		
+		//and the same duration
+		assertTrue(((Task) query.getSingleResult()).getDuration() == (task1.getDuration()));
 		}
 	
 	@Test
@@ -107,9 +109,6 @@ public class TaskIntegrationTest {
 		
 		entityManager.getTransaction().commit();
 		entityManager.clear();
-		
-		// Create a new EntityManager
-		entityManager = entityManagerFactory.createEntityManager();
 		
 		// Perform a simple query for all the Task entities
 		Query query = entityManager.createQuery("select p from Task p");
