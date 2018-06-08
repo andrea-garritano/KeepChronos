@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import org.hibernate.boot.model.source.spi.AssociationSource;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
