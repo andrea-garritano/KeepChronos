@@ -32,7 +32,6 @@ public class ProjectNoSQLIntegrationTest {
 		
 		//accessing JBoss's Transaction can be done differently but this one works nicely
 		transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
-		
 	}
 	
 	@Before

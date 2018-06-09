@@ -9,15 +9,15 @@ import org.hibernate.search.annotations.Indexed;
 @Indexed
 public class TaskNoSQL extends BasicEntity{
 	
-	private Project project;
+	private ProjectNoSQL project;
 	private int duration;
 	
 	@ManyToOne
-	public Project getProject() {
+	public ProjectNoSQL getProject() {
 		return project;
 	}
 
-	public void setProject(Project project) {
+	public void setProject(ProjectNoSQL project) {
 		this.project = project;
 	}
 
