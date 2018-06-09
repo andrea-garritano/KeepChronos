@@ -32,9 +32,9 @@ public class TaskDao {
 	}
 	
 	public Project getProjectByTaskId(Long id) {
-		Task temp_task = entityManager.find(Task.class, id);
-		if (temp_task!=null) {
-			return temp_task.getProject();
+		Task tempTask = entityManager.find(Task.class, id);
+		if (tempTask!=null) {
+			return tempTask.getProject();
 		}
 		return null;
 	}
