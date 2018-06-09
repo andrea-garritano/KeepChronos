@@ -20,7 +20,6 @@ public class TaskIntegrationTest {
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
 	
-	private ProjectDao projectDao;
 	private Project project_another;
 	private Task task1;
 	private Task task2;
@@ -52,8 +51,7 @@ public class TaskIntegrationTest {
 		project_another = new Project();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
-		projectDao = new ProjectDao(entityManager);
-		projectDao.save(project_another);
+		entityManager.persist(project_another);
 		
 		task1 = new Task();
 		task1.setTitle("First task");
