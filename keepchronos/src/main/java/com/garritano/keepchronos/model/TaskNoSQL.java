@@ -1,5 +1,6 @@
 package com.garritano.keepchronos.model;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -12,7 +13,7 @@ public class TaskNoSQL extends BasicEntity{
 	private ProjectNoSQL project;
 	private int duration;
 	
-	@ManyToOne
+	@Embedded
 	public ProjectNoSQL getProject() {
 		return project;
 	}

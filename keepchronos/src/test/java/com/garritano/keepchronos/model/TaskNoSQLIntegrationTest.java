@@ -40,24 +40,6 @@ public class TaskNoSQLIntegrationTest {
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
 		
-		// make sure to have the ProjectNoSQL table empty
-		transactionManager.begin();
-		query = entityManager.createQuery("select p from ProjectNoSQL p");
-		List<ProjectNoSQL> allProjects = query.getResultList();
-		for (ProjectNoSQL element: allProjects) {
-			entityManager.remove(element);
-		}
-		transactionManager.commit();
-		
-		transactionManager.begin();
-		query = entityManager.createQuery("select p from ProjectNoSQL p");
-		assertTrue(query.getResultList().size() == 0);
-		transactionManager.commit();
-		
-		// get a new EM to make sure data is actually retrieved from the store and not Hibernate’s internal cache
-		entityManager.close();
-		entityManager = entityManagerFactory.createEntityManager();
-		
 		// make sure to have the TaskNoSQL table empty
 		transactionManager.begin();
 		query = entityManager.createQuery("select t from TaskNoSQL t");
@@ -80,21 +62,15 @@ public class TaskNoSQLIntegrationTest {
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
 		
-		transactionManager.begin();
-		entityManager.persist(project_another);
-		transactionManager.commit();
-		
 		task1 = new TaskNoSQL();
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
-		//task1.setProject(project_another);
-		//se setto il progetto, da errore
+		task1.setProject(project_another);
 		task1.setDuration(30);
 		
 		task2 = new TaskNoSQL();
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
-		//task2.setProject(project_another);
 		task2.setDuration(20);
 	}
 	
@@ -106,7 +82,7 @@ public class TaskNoSQLIntegrationTest {
 		transactionManager.commit();
 		
 		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select p from TaskNoSQL p");
+		query = entityManager.createQuery("select p from TaskNoSQL p");
 		
 		// We should have only one task in the database
 		assertTrue(query.getResultList().size() == 1);
@@ -124,12 +100,24 @@ public class TaskNoSQLIntegrationTest {
 		// and the same id
 		assertTrue(((TaskNoSQL) query.getSingleResult()).getId() == (task1.getId()));
 		
-		//and the same associate project
-		//assertTrue(((TaskNoSQL)query.getSingleResult()).getProject().equals(project_another));
-		
 		//and the same duration
 		assertTrue(((TaskNoSQL) query.getSingleResult()).getDuration() == (task1.getDuration()));
+		
+		//and the same associate project
+		assertTrue(((TaskNoSQL)query.getSingleResult()).getProject().equals(project_another));
 		}
+	
+	@Test
+	public void testBasicPersistenceWithoutProject() throws Exception {
+		transactionManager.begin();
+		entityManager.persist(task2);
+		transactionManager.commit();
+		
+		// Perform a simple query for all the Task entities
+		query = entityManager.createQuery("select p from TaskNoSQL p");
+		
+		assertEquals(null, ((TaskNoSQL)query.getSingleResult()).getProject());
+	}
 	
 	@Test
 	public void testMultiplePersistence() throws Exception {

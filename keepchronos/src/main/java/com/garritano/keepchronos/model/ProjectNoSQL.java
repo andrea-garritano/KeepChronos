@@ -1,12 +1,18 @@
 package com.garritano.keepchronos.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
 
 import org.hibernate.search.annotations.Indexed;
 
 
-@Entity
+@Embeddable
 @Indexed
-public class ProjectNoSQL extends BasicEntity {
+public class ProjectNoSQL extends BasicEntity{
+	private Long id;
 	
+	@GeneratedValue
+	public Long getId() {
+		return id;
+	}
 }
