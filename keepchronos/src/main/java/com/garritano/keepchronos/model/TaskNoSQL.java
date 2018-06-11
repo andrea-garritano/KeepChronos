@@ -2,7 +2,6 @@ package com.garritano.keepchronos.model;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 import org.hibernate.search.annotations.Indexed;
 
