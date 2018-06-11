@@ -11,6 +11,7 @@ import org.hibernate.search.annotations.Indexed;
 public class ProjectNoSQL extends BasicEntity{
 	private Long id;
 	
+	@Override
 	@GeneratedValue
 	public Long getId() {
 		return id;

@@ -42,7 +42,7 @@ public class TaskNoSQLDaoIntegrationTest {
 	
 	@Before
 	public void setUp() throws Exception {
-entityManager = entityManagerFactory.createEntityManager();
+		entityManager = entityManagerFactory.createEntityManager();
 		
 		// make sure to have the TaskNoSQL table empty
 		transactionManager.begin();

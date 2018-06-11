@@ -54,6 +54,13 @@ public class ProjectTest {
 	}
 	
 	@Test
+	public void testEqualsWithSameIdNull() {
+		project1.setId(null);
+		project2.setId(null);
+		assertTrue(project1.equals(project2));
+	}
+	
+	@Test
 	public void testEqualsWithFirstNullSecondDifferent() {
 		project1.setId(null);
 		
