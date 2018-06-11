@@ -3,6 +3,11 @@ package com.garritano.keepchronos.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import com.garritano.keepchronos.model.ProjectNoSQL;
@@ -20,21 +25,18 @@ public class TaskNoSQLDao {
 		transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 	
-	public void save(TaskNoSQL task) throws Exception{
+	public void save(TaskNoSQL task) throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		entityManager.persist(task);
 		transactionManager.commit();
 	}
-	public List<TaskNoSQL> getAll() throws Exception{
+	public List<TaskNoSQL> getAll() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		List<TaskNoSQL> result = entityManager.createQuery("select p from TaskNoSQL p", TaskNoSQL.class).getResultList();
 		transactionManager.commit();
 		
 		return result;
 	}
-/*	public List<TaskNoSQL> getAll() {
-		return entityManager.createQuery("select p from Task p", TaskNoSQL.class).getResultList();
-	}*/
 	
 	public TaskNoSQL findById(Long id) {
 		return entityManager.find(TaskNoSQL.class, id);
