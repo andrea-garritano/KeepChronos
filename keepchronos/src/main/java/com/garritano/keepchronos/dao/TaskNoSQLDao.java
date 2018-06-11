@@ -11,7 +11,6 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import com.garritano.keepchronos.model.ProjectNoSQL;
-import com.garritano.keepchronos.model.Task;
 import com.garritano.keepchronos.model.TaskNoSQL;
 
 public class TaskNoSQLDao {
@@ -25,12 +24,12 @@ public class TaskNoSQLDao {
 		transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 	
-	public void save(TaskNoSQL task) throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
+	public void save(TaskNoSQL task) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		entityManager.persist(task);
 		transactionManager.commit();
 	}
-	public List<TaskNoSQL> getAll() throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
+	public List<TaskNoSQL> getAll() throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		List<TaskNoSQL> result = entityManager.createQuery("select p from TaskNoSQL p", TaskNoSQL.class).getResultList();
 		transactionManager.commit();
@@ -42,7 +41,7 @@ public class TaskNoSQLDao {
 		return entityManager.find(TaskNoSQL.class, id);
 	}
 	
-	public void update(TaskNoSQL task) throws Exception{
+	public void update(TaskNoSQL task) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		entityManager.merge(task);
 		transactionManager.commit();
