@@ -9,7 +9,7 @@ import com.garritano.keepchronos.model.Task;
 
 public class TaskDao {
 	
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	
 	public TaskDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
@@ -18,6 +18,7 @@ public class TaskDao {
 	public void save(Task task) {
 		entityManager.persist(task);
 	}
+	
 	public List<Task> getAll() {
 		return entityManager.createQuery("select p from Task p", Task.class).getResultList();
 	}

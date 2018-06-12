@@ -15,7 +15,7 @@ import com.garritano.keepchronos.model.TaskNoSQL;
 
 public class TaskNoSQLDao {
 	
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private TransactionManager transactionManager;
 	
 	public TaskNoSQLDao(EntityManager entityManager) {
@@ -29,6 +29,7 @@ public class TaskNoSQLDao {
 		entityManager.persist(task);
 		transactionManager.commit();
 	}
+	
 	public List<TaskNoSQL> getAll() throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
 		transactionManager.begin();
 		List<TaskNoSQL> result = entityManager.createQuery("select p from TaskNoSQL p", TaskNoSQL.class).getResultList();

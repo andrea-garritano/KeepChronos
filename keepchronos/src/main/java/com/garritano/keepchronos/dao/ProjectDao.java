@@ -8,10 +8,11 @@ import com.garritano.keepchronos.model.Project;
 
 public class ProjectDao {
 	
+	private EntityManager entityManager;
+	
 	public ProjectDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	protected EntityManager entityManager;
 	
 	public void save(Project project) {
 		entityManager.persist(project);

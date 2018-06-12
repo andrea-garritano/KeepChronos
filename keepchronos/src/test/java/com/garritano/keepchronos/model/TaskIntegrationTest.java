@@ -13,9 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.dao.ProjectDao;
-
 public class TaskIntegrationTest {
+	
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
@@ -23,7 +22,6 @@ public class TaskIntegrationTest {
 	private Project project_another;
 	private Task task1;
 	private Task task2;
-	
 	
 	@BeforeClass
 	public static void setUpClass() {

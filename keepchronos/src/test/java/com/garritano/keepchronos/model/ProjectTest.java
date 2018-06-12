@@ -57,6 +57,7 @@ public class ProjectTest {
 	public void testEqualsWithSameIdNull() {
 		project1.setId(null);
 		project2.setId(null);
+		
 		assertTrue(project1.equals(project2));
 	}
 	
@@ -83,6 +84,7 @@ public class ProjectTest {
 	public void testHashCodeWithNullId() {
 		project1.setId(null);
 		project2.setId(null);
+		
 		assertTrue(project1.hashCode() == project2.hashCode());
 	}
 	
