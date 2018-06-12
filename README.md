@@ -5,15 +5,22 @@
 
 Simple Time Tracker developed with awesome advanced programming techniques
 
+## Prerequisites
+
+* [Docker](https://www.docker.com/)
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [Maven 3.3](https://maven.apache.org/download.cgi)
+
+## Running
+
+* `git clone <repository-url>` this repository
+* `cd keepchronos`
+* `docker compose up`
+* `mvn install`
+
 ### SonarQube
-From the directory containing docker-compose.yml run
+From the main directory run
 
-`docker compose up`
-
-Then, from the directory containing pom.xml run
-
-`mvn clean verify sonar:sonar`
-
-or, replacing IP-ADDRESS with the ip address of the SonarQube container
-
-`mvn clean verify sonar:sonar -Dsonar.host.url=http://IP-ADDRESS:9000`
+* `docker compose up`
+* `cd keepchronos`
+* `mvn clean verify sonar:sonar`
