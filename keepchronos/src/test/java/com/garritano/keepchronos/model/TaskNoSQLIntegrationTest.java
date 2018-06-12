@@ -27,7 +27,6 @@ public class TaskNoSQLIntegrationTest {
 	private TaskNoSQL task1;
 	private TaskNoSQL task2;
 	
-	
 	@BeforeClass
 	public static void setUpClass() {
 		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);

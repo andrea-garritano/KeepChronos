@@ -9,6 +9,7 @@ import org.hibernate.search.annotations.Indexed;
 @Embeddable
 @Indexed
 public class ProjectNoSQL extends BasicEntity{
+	
 	private Long id;
 	
 	@Override
