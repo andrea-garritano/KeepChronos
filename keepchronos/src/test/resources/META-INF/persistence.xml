@@ -55,8 +55,8 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
         <!-- The provider specifies the JPA implementation that you want to use 
 			(Hibernate OGM) -->
         
-        <class>com.garritano.keepchronos.model.TaskNoSQL</class>
-        <class>com.garritano.keepchronos.model.ProjectNoSQL</class>
+        <class>com.garritano.keepchronos.model.nosql.TaskNoSQL</class>
+        <class>com.garritano.keepchronos.model.nosql.ProjectNoSQL</class>
         <properties>
             <property name="hibernate.ogm.datastore.provider" value="infinispan_embedded"/>
             <!-- datastore provider you want to use -->

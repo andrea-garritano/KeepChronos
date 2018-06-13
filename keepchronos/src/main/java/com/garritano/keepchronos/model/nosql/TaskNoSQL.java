@@ -1,9 +1,11 @@
-package com.garritano.keepchronos.model;
+package com.garritano.keepchronos.model.nosql;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
 import org.hibernate.search.annotations.Indexed;
+
+import com.garritano.keepchronos.model.BasicEntity;
 
 @Entity
 @Indexed

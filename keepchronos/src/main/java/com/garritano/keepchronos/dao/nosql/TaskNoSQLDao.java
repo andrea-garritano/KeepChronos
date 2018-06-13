@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.dao;
+package com.garritano.keepchronos.dao.nosql;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
-import com.garritano.keepchronos.model.ProjectNoSQL;
-import com.garritano.keepchronos.model.TaskNoSQL;
+import com.garritano.keepchronos.model.nosql.ProjectNoSQL;
+import com.garritano.keepchronos.model.nosql.TaskNoSQL;
 
 public class TaskNoSQLDao {
 

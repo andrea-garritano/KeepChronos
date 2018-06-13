@@ -16,6 +16,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.garritano.keepchronos.model.nosql.ProjectNoSQL;
+import com.garritano.keepchronos.model.nosql.TaskNoSQL;
+
 public class TaskNoSQLIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "infinispan-pu";
 	private static EntityManagerFactory entityManagerFactory;

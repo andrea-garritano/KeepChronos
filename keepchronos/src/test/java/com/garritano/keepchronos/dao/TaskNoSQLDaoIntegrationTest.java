@@ -16,8 +16,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.model.ProjectNoSQL;
-import com.garritano.keepchronos.model.TaskNoSQL;
+import com.garritano.keepchronos.dao.nosql.TaskNoSQLDao;
+import com.garritano.keepchronos.model.nosql.ProjectNoSQL;
+import com.garritano.keepchronos.model.nosql.TaskNoSQL;
 
 public class TaskNoSQLDaoIntegrationTest {
 

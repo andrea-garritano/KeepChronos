@@ -2,4 +2,4 @@
 /bin/
 /ObjectStore/
 /PutObjectStoreDirHere/
-/com.garritano.keepchronos.model.TaskNoSQL/
+/com.garritano.keepchronos.model.nosql.TaskNoSQL/
