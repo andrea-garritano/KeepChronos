@@ -27,126 +27,127 @@ public class TaskNoSQLDaoIntegrationTest {
 	private static TransactionManager transactionManager;
 	private Query query;
 	private TaskNoSQLDao taskDao;
-	
+
 	private ProjectNoSQL project_another;
 	private TaskNoSQL task1;
 	private TaskNoSQL task2;
-	
+
 	@BeforeClass
 	public static void setUpClass() {
 		entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-		
-		//accessing JBoss's Transaction can be done differently but this one works nicely
+
+		// accessing JBoss's Transaction can be done differently but this one works
+		// nicely
 		transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
-	
+
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		
+
 		// make sure to have the TaskNoSQL table empty
 		transactionManager.begin();
 		query = entityManager.createQuery("select t from TaskNoSQL t");
 		List<TaskNoSQL> allTasks = query.getResultList();
-		for (TaskNoSQL element: allTasks) {
+		for (TaskNoSQL element : allTasks) {
 			entityManager.remove(element);
 		}
 		transactionManager.commit();
-		
+
 		transactionManager.begin();
 		query = entityManager.createQuery("select p from TaskNoSQL p");
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
-		
-		// get a new EM to make sure data is actually retrieved from the store and not Hibernate’s internal cache
+
+		// get a new EM to make sure data is actually retrieved from the store and not
+		// Hibernate’s internal cache
 		entityManager.close();
 		entityManager = entityManagerFactory.createEntityManager();
 
 		project_another = new ProjectNoSQL();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
-		
+
 		task1 = new TaskNoSQL();
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setProject(project_another);
 		task1.setDuration(30);
-		
+
 		task2 = new TaskNoSQL();
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
-		
+
 		taskDao = new TaskNoSQLDao(entityManager);
 	}
-	
+
 	@Test
-	public void testSave() throws Exception{
+	public void testSave() throws Exception {
 		taskDao.save(task1);
-		
+
 		assertEquals(task1, entityManager.createQuery("from TaskNoSQL where id =:id", TaskNoSQL.class)
-											.setParameter("id", task1.getId())
-											.getSingleResult());
+				.setParameter("id", task1.getId()).getSingleResult());
 	}
-	
+
 	@Test
-	public void testEmptyGetAll() throws Exception{
+	public void testEmptyGetAll() throws Exception {
 		assertTrue(taskDao.getAll().size() == 0);
 	}
-	
+
 	@Test
-	public void testOneGetAll() throws Exception{
+	public void testOneGetAll() throws Exception {
 		taskDao.save(task1);
-		
+
 		assertEquals(task1, taskDao.getAll().get(0));
 		assertTrue(taskDao.getAll().size() == 1);
 	}
-	
+
 	@Test
-	public void testMultipleGetAll() throws Exception{
+	public void testMultipleGetAll() throws Exception {
 		taskDao.save(task1);
 		taskDao.save(task2);
-		
+
 		assertTrue(taskDao.getAll().size() == 2);
 	}
-	
+
 	@Test
 	public void testEmptyFindbyId() {
 		assertNull(taskDao.findById((long) -1));
 	}
-	
+
 	@Test
-	public void testNotEmptyFindbyId() throws Exception{
+	public void testNotEmptyFindbyId() throws Exception {
 		taskDao.save(task1);
-		
+
 		assertEquals(task1, taskDao.findById(task1.getId()));
 	}
-	
+
 	@Test
-	public void testUpdate() throws Exception{
+	public void testUpdate() throws Exception {
 		taskDao.save(task1);
 		task1.setDescription("new description!");
 		taskDao.update(task1);
-		
+
 		assertEquals(task1.getDescription(), taskDao.findById(task1.getId()).getDescription());
 	}
-	
+
 	@Test
 	public void testGetProjectByTaskIdWithNonExistingId() {
 		assertNull(taskDao.getProjectByTaskId((long) -1));
 	}
-	
+
 	@Test
-	public void testGetProjectByTaskIdWithExistingId() throws Exception{
+	public void testGetProjectByTaskIdWithExistingId() throws Exception {
 		taskDao.save(task1);
 		assertEquals(task1.getProject(), taskDao.getProjectByTaskId(task1.getId()));
 	}
-	
+
 	@After
 	public void tearDown() {
 		task1 = null;
 		task2 = null;
-		if ( entityManager.getTransaction().isActive() ) {
+		if (entityManager.getTransaction().isActive()) {
 			entityManager.getTransaction().rollback();
 		}
 		entityManager.close();
@@ -156,5 +157,5 @@ public class TaskNoSQLDaoIntegrationTest {
 	public static void tearDownClass() {
 		entityManagerFactory.close();
 	}
-	
+
 }
