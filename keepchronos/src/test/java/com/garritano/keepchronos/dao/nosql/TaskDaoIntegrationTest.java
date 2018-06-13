@@ -24,7 +24,7 @@ public class TaskDaoIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "infinispan-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private static TransactionManager transactionManager;
 	private TypedQuery<Task> query;
 	private TaskDao taskDao;

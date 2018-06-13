@@ -20,7 +20,7 @@ public class TaskIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 
 	private Project project_another;
 	private Task task1;
@@ -34,19 +34,16 @@ public class TaskIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
+		
 		entityManager.getTransaction().begin();
-
 		// make sure to drop the Task table for testing
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
-
-		entityManager.getTransaction().begin();
-
+		
 		// make sure to drop the Task table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
-
-		entityManager.getTransaction().begin();
 
 		project_another = new Project();
 		project_another.setTitle("Another project");
@@ -63,15 +60,13 @@ public class TaskIntegrationTest {
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
+		entityManager.getTransaction().begin();
 	}
 
 	@Test
 	public void testBasicPersistence() {
-
 		entityManager.persist(task1);
-
 		entityManager.getTransaction().commit();
-		entityManager.clear();
 
 		// Perform a simple query for all the Task entities
 		Query query = entityManager.createQuery("select p from Task p");
@@ -97,12 +92,9 @@ public class TaskIntegrationTest {
 
 	@Test
 	public void testMultiplePersistence() {
-
 		entityManager.persist(task1);
 		entityManager.persist(task2);
-
 		entityManager.getTransaction().commit();
-		entityManager.clear();
 
 		// Perform a simple query for all the Task entities
 		Query query = entityManager.createQuery("select p from Task p");
@@ -113,7 +105,6 @@ public class TaskIntegrationTest {
 
 	@After
 	public void tearDown() {
-
 		task1 = null;
 		task2 = null;
 		entityManager.close();

@@ -20,7 +20,7 @@ public class TaskDaoIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private TaskDao taskDao;
 
 	private Project project_another;
@@ -35,12 +35,12 @@ public class TaskDaoIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		entityManager.getTransaction().begin();
 
 		// make sure to drop the Task table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
-		entityManager.getTransaction().begin();
+		
 		taskDao = new TaskDao(entityManager);
 
 		project_another = new Project();
@@ -59,6 +59,7 @@ public class TaskDaoIntegrationTest {
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(30);
 		task1.setProject(project_another);
+		
 	}
 
 	@Test

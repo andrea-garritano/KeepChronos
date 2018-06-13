@@ -19,7 +19,7 @@ public class ProjectDaoIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private ProjectDao projectDao;
 
 	private Project project1;
@@ -33,12 +33,12 @@ public class ProjectDaoIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		entityManager.getTransaction().begin();
 
 		// make sure to drop the Project table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
-		entityManager.getTransaction().begin();
+		
 		projectDao = new ProjectDao(entityManager);
 
 		project1 = new Project();

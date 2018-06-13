@@ -15,7 +15,9 @@ public class ProjectDao {
 	}
 
 	public void save(Project project) {
+		entityManager.getTransaction().begin();
 		entityManager.persist(project);
+		entityManager.getTransaction().commit();
 	}
 
 	public List<Project> getAll() {
@@ -27,6 +29,8 @@ public class ProjectDao {
 	}
 
 	public void update(Project project) {
+		entityManager.getTransaction().begin();
 		entityManager.merge(project);
+		entityManager.getTransaction().commit();
 	}
 }

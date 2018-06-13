@@ -16,7 +16,9 @@ public class TaskDao {
 	}
 
 	public void save(Task task) {
+		entityManager.getTransaction().begin();
 		entityManager.persist(task);
+		entityManager.getTransaction().commit();
 	}
 
 	public List<Task> getAll() {
@@ -28,7 +30,9 @@ public class TaskDao {
 	}
 
 	public void update(Task task) {
+		entityManager.getTransaction().begin();
 		entityManager.merge(task);
+		entityManager.getTransaction().commit();
 	}
 
 	public Project getProjectByTaskId(Long id) {

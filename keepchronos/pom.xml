@@ -53,8 +53,7 @@
 		<dependency>
 			<groupId>org.jboss.narayana.jta</groupId>
 			<artifactId>narayana-jta</artifactId>
-			<version>5.5.23.Final</version>
-			<!-- 5.5.30.Final has a bug -->
+			<version>5.5.23.Final</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 		<dependency>
