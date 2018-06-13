@@ -20,7 +20,7 @@ public class TaskIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 
 	private Project project_another;
 	private Task task1;

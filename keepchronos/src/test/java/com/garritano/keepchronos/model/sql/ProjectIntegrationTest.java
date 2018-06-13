@@ -19,7 +19,7 @@ public class ProjectIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 
 	private Project project1;
 	private Project project2;

@@ -28,7 +28,7 @@ import com.garritano.keepchronos.model.nosql.Task;
 public class TaskIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "infinispan-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private static TransactionManager transactionManager;
 	private TypedQuery<Task> query;
 

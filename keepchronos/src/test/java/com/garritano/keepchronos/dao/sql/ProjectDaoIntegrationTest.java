@@ -19,7 +19,7 @@ public class ProjectDaoIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
-	protected EntityManager entityManager;
+	private EntityManager entityManager;
 	private ProjectDao projectDao;
 
 	private Project project1;
