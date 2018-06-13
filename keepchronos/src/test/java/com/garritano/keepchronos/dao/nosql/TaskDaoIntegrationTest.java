@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.TransactionManager;
 
 import org.junit.After;
@@ -26,7 +26,7 @@ public class TaskDaoIntegrationTest {
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
 	private static TransactionManager transactionManager;
-	private Query query;
+	private TypedQuery<Task> query;
 	private TaskDao taskDao;
 
 	private Project project_another;
@@ -48,7 +48,7 @@ public class TaskDaoIntegrationTest {
 
 		// make sure to have the Task table empty
 		transactionManager.begin();
-		query = entityManager.createQuery("select t from Task t");
+		query = entityManager.createQuery("select t from Task t", Task.class);
 		List<Task> allTasks = query.getResultList();
 		for (Task element : allTasks) {
 			entityManager.remove(element);
@@ -56,7 +56,7 @@ public class TaskDaoIntegrationTest {
 		transactionManager.commit();
 
 		transactionManager.begin();
-		query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p", Task.class);
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
 
