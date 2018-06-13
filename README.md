@@ -14,13 +14,12 @@ Simple Time Tracker developed with awesome advanced programming techniques
 ## Running
 
 * `git clone <repository-url>` this repository
-* `cd keepchronos`
+* `cd KeepChronos`
 * `docker compose up`
+* `cd keepchronos`
 * `mvn install`
 
-### SonarQube
-From the main directory run
+### Testing
 
-* `docker compose up`
-* `cd keepchronos`
-* `mvn clean verify sonar:sonar`
+From the directory (KeepChronos/keepchronos/) run 
+* `mvn clean verify`
