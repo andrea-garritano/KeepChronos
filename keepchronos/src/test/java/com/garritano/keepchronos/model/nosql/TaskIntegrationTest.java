@@ -8,6 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
 import org.junit.After;
@@ -24,7 +30,7 @@ public class TaskIntegrationTest {
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
 	private static TransactionManager transactionManager;
-	private Query query;
+	private TypedQuery<Task> query;
 
 	private Project project_another;
 	private Task task1;
@@ -45,7 +51,7 @@ public class TaskIntegrationTest {
 
 		// make sure to have the Task table empty
 		transactionManager.begin();
-		query = entityManager.createQuery("select t from Task t");
+		query = entityManager.createQuery("select t from Task t", Task.class);
 		List<Task> allTasks = query.getResultList();
 		for (Task element : allTasks) {
 			entityManager.remove(element);
@@ -53,7 +59,7 @@ public class TaskIntegrationTest {
 		transactionManager.commit();
 
 		transactionManager.begin();
-		query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p", Task.class);
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
 
@@ -78,15 +84,20 @@ public class TaskIntegrationTest {
 		task2.setDuration(20);
 	}
 
+	private void transactPersist(Task t) throws NotSupportedException, SystemException, RollbackException,
+			HeuristicMixedException, HeuristicRollbackException {
+		transactionManager.begin();
+		entityManager.persist(t);
+		transactionManager.commit();
+	}
+
 	@Test
 	public void testBasicPersistence() throws Exception {
 
-		transactionManager.begin();
-		entityManager.persist(task1);
-		transactionManager.commit();
+		transactPersist(task1);
 
 		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p", Task.class);
 
 		// We should have only one task in the database
 		assertTrue(query.getResultList().size() == 1);
@@ -109,25 +120,18 @@ public class TaskIntegrationTest {
 
 	@Test
 	public void testBasicPersistenceWithoutProject() throws Exception {
-		transactionManager.begin();
-		entityManager.persist(task2);
-		transactionManager.commit();
+		transactPersist(task2);
 
 		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p", Task.class);
 
 		assertEquals(null, ((Task) query.getSingleResult()).getProject());
 	}
 
 	@Test
 	public void testMultiplePersistence() throws Exception {
-		transactionManager.begin();
-		entityManager.persist(task1);
-		transactionManager.commit();
-
-		transactionManager.begin();
-		entityManager.persist(task2);
-		transactionManager.commit();
+		transactPersist(task1);
+		transactPersist(task2);
 
 		// Perform a simple query for all the Task entities
 		Query query = entityManager.createQuery("select t from Task t");
