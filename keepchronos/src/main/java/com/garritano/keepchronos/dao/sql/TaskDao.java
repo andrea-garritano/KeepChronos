@@ -1,11 +1,11 @@
-package com.garritano.keepchronos.dao;
+package com.garritano.keepchronos.dao.sql;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import com.garritano.keepchronos.model.Project;
-import com.garritano.keepchronos.model.Task;
+import com.garritano.keepchronos.model.sql.Project;
+import com.garritano.keepchronos.model.sql.Task;
 
 public class TaskDao {
 

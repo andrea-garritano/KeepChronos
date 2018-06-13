@@ -1,7 +1,9 @@
-package com.garritano.keepchronos.model;
+package com.garritano.keepchronos.model.sql;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import com.garritano.keepchronos.model.BasicEntity;
 
 @Entity
 public class Task extends BasicEntity {
