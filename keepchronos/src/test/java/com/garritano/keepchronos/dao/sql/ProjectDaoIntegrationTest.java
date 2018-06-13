@@ -33,12 +33,12 @@ public class ProjectDaoIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		entityManager.getTransaction().begin();
 
 		// make sure to drop the Project table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
-		entityManager.getTransaction().begin();
+		
 		projectDao = new ProjectDao(entityManager);
 
 		project1 = new Project();
