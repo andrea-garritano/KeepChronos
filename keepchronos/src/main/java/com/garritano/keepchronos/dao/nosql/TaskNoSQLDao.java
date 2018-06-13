@@ -10,8 +10,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.TransactionManager;
 
-import com.garritano.keepchronos.model.nosql.ProjectNoSQL;
-import com.garritano.keepchronos.model.nosql.TaskNoSQL;
+import com.garritano.keepchronos.model.nosql.Project;
+import com.garritano.keepchronos.model.nosql.Task;
 
 public class TaskNoSQLDao {
 
@@ -25,36 +25,36 @@ public class TaskNoSQLDao {
 		transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 	}
 
-	public void save(TaskNoSQL task) throws NotSupportedException, SystemException, RollbackException,
+	public void save(Task task) throws NotSupportedException, SystemException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 		transactionManager.begin();
 		entityManager.persist(task);
 		transactionManager.commit();
 	}
 
-	public List<TaskNoSQL> getAll() throws NotSupportedException, SystemException, RollbackException,
+	public List<Task> getAll() throws NotSupportedException, SystemException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 		transactionManager.begin();
-		List<TaskNoSQL> result = entityManager.createQuery("select p from TaskNoSQL p", TaskNoSQL.class)
+		List<Task> result = entityManager.createQuery("select p from Task p", Task.class)
 				.getResultList();
 		transactionManager.commit();
 
 		return result;
 	}
 
-	public TaskNoSQL findById(Long id) {
-		return entityManager.find(TaskNoSQL.class, id);
+	public Task findById(Long id) {
+		return entityManager.find(Task.class, id);
 	}
 
-	public void update(TaskNoSQL task) throws NotSupportedException, SystemException, RollbackException,
+	public void update(Task task) throws NotSupportedException, SystemException, RollbackException,
 			HeuristicMixedException, HeuristicRollbackException {
 		transactionManager.begin();
 		entityManager.merge(task);
 		transactionManager.commit();
 	}
 
-	public ProjectNoSQL getProjectByTaskId(Long id) {
-		TaskNoSQL tempTask = entityManager.find(TaskNoSQL.class, id);
+	public Project getProjectByTaskId(Long id) {
+		Task tempTask = entityManager.find(Task.class, id);
 		if (tempTask != null) {
 			return tempTask.getProject();
 		}

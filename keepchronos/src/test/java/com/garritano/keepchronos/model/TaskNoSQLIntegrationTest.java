@@ -16,8 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.model.nosql.ProjectNoSQL;
-import com.garritano.keepchronos.model.nosql.TaskNoSQL;
+import com.garritano.keepchronos.model.nosql.Project;
+import com.garritano.keepchronos.model.nosql.Task;
 
 public class TaskNoSQLIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "infinispan-pu";
@@ -26,9 +26,9 @@ public class TaskNoSQLIntegrationTest {
 	private static TransactionManager transactionManager;
 	private Query query;
 
-	private ProjectNoSQL project_another;
-	private TaskNoSQL task1;
-	private TaskNoSQL task2;
+	private Project project_another;
+	private Task task1;
+	private Task task2;
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -43,17 +43,17 @@ public class TaskNoSQLIntegrationTest {
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
 
-		// make sure to have the TaskNoSQL table empty
+		// make sure to have the Task table empty
 		transactionManager.begin();
-		query = entityManager.createQuery("select t from TaskNoSQL t");
-		List<TaskNoSQL> allTasks = query.getResultList();
-		for (TaskNoSQL element : allTasks) {
+		query = entityManager.createQuery("select t from Task t");
+		List<Task> allTasks = query.getResultList();
+		for (Task element : allTasks) {
 			entityManager.remove(element);
 		}
 		transactionManager.commit();
 
 		transactionManager.begin();
-		query = entityManager.createQuery("select p from TaskNoSQL p");
+		query = entityManager.createQuery("select p from Task p");
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
 
@@ -62,17 +62,17 @@ public class TaskNoSQLIntegrationTest {
 		entityManager.close();
 		entityManager = entityManagerFactory.createEntityManager();
 
-		project_another = new ProjectNoSQL();
+		project_another = new Project();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
 
-		task1 = new TaskNoSQL();
+		task1 = new Task();
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setProject(project_another);
 		task1.setDuration(30);
 
-		task2 = new TaskNoSQL();
+		task2 = new Task();
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
@@ -86,25 +86,25 @@ public class TaskNoSQLIntegrationTest {
 		transactionManager.commit();
 
 		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from TaskNoSQL p");
+		query = entityManager.createQuery("select p from Task p");
 
 		// We should have only one task in the database
 		assertTrue(query.getResultList().size() == 1);
 
 		// We should have the same title
-		assertTrue(((TaskNoSQL) query.getSingleResult()).getTitle().equals(task1.getTitle()));
+		assertTrue(((Task) query.getSingleResult()).getTitle().equals(task1.getTitle()));
 
 		// and the same description
-		assertTrue(((TaskNoSQL) query.getSingleResult()).getDescription().equals(task1.getDescription()));
+		assertTrue(((Task) query.getSingleResult()).getDescription().equals(task1.getDescription()));
 
 		// and the same id
-		assertTrue(((TaskNoSQL) query.getSingleResult()).getId() == (task1.getId()));
+		assertTrue(((Task) query.getSingleResult()).getId() == (task1.getId()));
 
 		// and the same duration
-		assertTrue(((TaskNoSQL) query.getSingleResult()).getDuration() == (task1.getDuration()));
+		assertTrue(((Task) query.getSingleResult()).getDuration() == (task1.getDuration()));
 
 		// and the same associate project
-		assertTrue(((TaskNoSQL) query.getSingleResult()).getProject().equals(project_another));
+		assertTrue(((Task) query.getSingleResult()).getProject().equals(project_another));
 	}
 
 	@Test
@@ -114,9 +114,9 @@ public class TaskNoSQLIntegrationTest {
 		transactionManager.commit();
 
 		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from TaskNoSQL p");
+		query = entityManager.createQuery("select p from Task p");
 
-		assertEquals(null, ((TaskNoSQL) query.getSingleResult()).getProject());
+		assertEquals(null, ((Task) query.getSingleResult()).getProject());
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class TaskNoSQLIntegrationTest {
 		transactionManager.commit();
 
 		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select t from TaskNoSQL t");
+		Query query = entityManager.createQuery("select t from Task t");
 
 		// We should have 2 tasks in the database
 		assertTrue(query.getResultList().size() == 2);

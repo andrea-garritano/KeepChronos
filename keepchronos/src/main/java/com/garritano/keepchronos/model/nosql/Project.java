@@ -9,7 +9,7 @@ import com.garritano.keepchronos.model.BasicEntity;
 
 @Embeddable
 @Indexed
-public class ProjectNoSQL extends BasicEntity {
+public class Project extends BasicEntity {
 
 	private Long id;
 
