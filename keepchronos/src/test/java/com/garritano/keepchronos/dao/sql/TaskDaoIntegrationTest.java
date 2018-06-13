@@ -59,7 +59,6 @@ public class TaskDaoIntegrationTest {
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(30);
 		task1.setProject(project_another);
-		
 	}
 
 	@Test

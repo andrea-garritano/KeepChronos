@@ -20,6 +20,7 @@ public class ProjectIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
+	private Query query;
 
 	private Project project1;
 	private Project project2;
@@ -38,8 +39,6 @@ public class ProjectIntegrationTest {
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
 
-		entityManager.getTransaction().begin();
-
 		project1 = new Project();
 		project1.setTitle("First project");
 		project1.setDescription("This is my first project, hi!");
@@ -48,42 +47,39 @@ public class ProjectIntegrationTest {
 		project2.setTitle("Second project");
 		project2.setDescription("This is my second project, wow!");
 	}
+	
+	private void transactionPersist(Project p) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(p);
+		entityManager.getTransaction().commit();
+	}
 
 	@Test
 	public void testBasicPersistence() {
-
-		entityManager.persist(project1);
-
-		entityManager.getTransaction().commit();
+		transactionPersist(project1);
 		entityManager.clear();
 
 		// Perform a simple query for all the Project entities
-		Query query = entityManager.createQuery("select p from Project p");
+		query = entityManager.createQuery("select p from Project p");
 
 		// We should have only one project in the database
 		assertTrue(query.getResultList().size() == 1);
 
 		// We should have the same title
-		assertTrue(((Project) query.getSingleResult()).getTitle().equals(project1.getTitle()));
+		assertEquals(project1.getTitle(), ((Project) query.getSingleResult()).getTitle());
 
 		// and the same description
-		assertTrue(((Project) query.getSingleResult()).getDescription().equals(project1.getDescription()));
-
-		// and the same id
-		assertTrue(((Project) query.getSingleResult()).getId() == (project1.getId()));
+		assertEquals(project1.getDescription(), ((Project) query.getSingleResult()).getDescription());
 	}
 
 	@Test
 	public void testMultiplePersistence() {
-
-		entityManager.persist(project1);
-		entityManager.persist(project2);
-
-		entityManager.getTransaction().commit();
+		transactionPersist(project1);
+		transactionPersist(project2);
 		entityManager.clear();
 
 		// Perform a simple query for all the Project entities
-		Query query = entityManager.createQuery("select p from Project p");
+		query = entityManager.createQuery("select p from Project p");
 
 		// We should have 2 projects in the database
 		assertTrue(query.getResultList().size() == 2);
