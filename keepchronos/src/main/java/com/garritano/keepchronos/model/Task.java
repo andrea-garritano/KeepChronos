@@ -4,11 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Task extends BasicEntity{
-	
+public class Task extends BasicEntity {
+
 	private Project project;
 	private int duration;
-	
+
 	@ManyToOne
 	public Project getProject() {
 		return project;
