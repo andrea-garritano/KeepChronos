@@ -103,19 +103,16 @@ public class TaskIntegrationTest {
 		assertTrue(query.getResultList().size() == 1);
 
 		// We should have the same title
-		assertTrue(((Task) query.getSingleResult()).getTitle().equals(task1.getTitle()));
+		assertEquals(task1.getTitle(), ((Task) query.getSingleResult()).getTitle());
 
 		// and the same description
-		assertTrue(((Task) query.getSingleResult()).getDescription().equals(task1.getDescription()));
-
-		// and the same id
-		assertTrue(((Task) query.getSingleResult()).getId() == (task1.getId()));
+		assertEquals(task1.getDescription(), ((Task) query.getSingleResult()).getDescription());
 
 		// and the same duration
-		assertTrue(((Task) query.getSingleResult()).getDuration() == (task1.getDuration()));
+		assertEquals(task1.getDuration(), ((Task) query.getSingleResult()).getDuration());
 
 		// and the same associate project
-		assertTrue(((Task) query.getSingleResult()).getProject().equals(project_another));
+		assertEquals(project_another, ((Task) query.getSingleResult()).getProject());
 	}
 
 	@Test

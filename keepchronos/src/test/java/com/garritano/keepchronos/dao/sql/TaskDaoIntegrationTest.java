@@ -40,7 +40,7 @@ public class TaskDaoIntegrationTest {
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
-		entityManager.getTransaction().begin();
+		
 		taskDao = new TaskDao(entityManager);
 
 		project_another = new Project();
