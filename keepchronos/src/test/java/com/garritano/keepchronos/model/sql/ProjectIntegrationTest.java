@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.model;
+package com.garritano.keepchronos.model.sql;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.garritano.keepchronos.model.sql.Project;
 
 public class ProjectIntegrationTest {
 

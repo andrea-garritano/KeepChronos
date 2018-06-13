@@ -14,8 +14,8 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 		<!-- The provider specifies the JPA implementation that you want to use 
 			(Hibernate) -->
 
-		<class>com.garritano.keepchronos.model.Project</class>
-		<class>com.garritano.keepchronos.model.Task</class>
+		<class>com.garritano.keepchronos.model.sql.Project</class>
+		<class>com.garritano.keepchronos.model.sql.Task</class>
 		<!-- Specify names of managed persistable classes -->
 
 		<properties>
