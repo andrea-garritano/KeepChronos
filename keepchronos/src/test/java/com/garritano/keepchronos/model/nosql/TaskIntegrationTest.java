@@ -92,8 +92,8 @@ public class TaskIntegrationTest {
 	}
 
 	@Test
-	public void testBasicPersistence() throws Exception {
-
+	public void testBasicPersistence() throws NotSupportedException, SystemException, RollbackException,
+	HeuristicMixedException, HeuristicRollbackException{
 		transactPersist(task1);
 
 		// Perform a simple query for all the Task entities
@@ -116,7 +116,8 @@ public class TaskIntegrationTest {
 	}
 
 	@Test
-	public void testBasicPersistenceWithoutProject() throws Exception {
+	public void testBasicPersistenceWithoutProject() throws NotSupportedException, SystemException, RollbackException,
+	HeuristicMixedException, HeuristicRollbackException{
 		transactPersist(task2);
 
 		// Perform a simple query for all the Task entities
@@ -126,7 +127,8 @@ public class TaskIntegrationTest {
 	}
 
 	@Test
-	public void testMultiplePersistence() throws Exception {
+	public void testMultiplePersistence() throws NotSupportedException, SystemException, RollbackException,
+	HeuristicMixedException, HeuristicRollbackException{
 		transactPersist(task1);
 		transactPersist(task2);
 
