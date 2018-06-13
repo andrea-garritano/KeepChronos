@@ -1,6 +1,5 @@
 /target/
 /bin/
-/com.garritano.keepchronos.model.ProjectNoSQL/
 /ObjectStore/
 /PutObjectStoreDirHere/
-com.garritano.keepchronos.model.TaskNoSQL
+/com.garritano.keepchronos.model.TaskNoSQL/
