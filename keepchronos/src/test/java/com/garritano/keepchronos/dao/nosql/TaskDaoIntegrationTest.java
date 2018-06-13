@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.dao.nosql.TaskNoSQLDao;
+import com.garritano.keepchronos.dao.nosql.TaskDao;
 import com.garritano.keepchronos.model.nosql.Project;
 import com.garritano.keepchronos.model.nosql.Task;
 
@@ -27,7 +27,7 @@ public class TaskDaoIntegrationTest {
 	protected EntityManager entityManager;
 	private static TransactionManager transactionManager;
 	private Query query;
-	private TaskNoSQLDao taskDao;
+	private TaskDao taskDao;
 
 	private Project project_another;
 	private Task task1;
@@ -80,7 +80,7 @@ public class TaskDaoIntegrationTest {
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
 
-		taskDao = new TaskNoSQLDao(entityManager);
+		taskDao = new TaskDao(entityManager);
 	}
 
 	@Test

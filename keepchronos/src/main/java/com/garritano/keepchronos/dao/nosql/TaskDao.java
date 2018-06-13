@@ -13,12 +13,12 @@ import javax.transaction.TransactionManager;
 import com.garritano.keepchronos.model.nosql.Project;
 import com.garritano.keepchronos.model.nosql.Task;
 
-public class TaskNoSQLDao {
+public class TaskDao {
 
 	private EntityManager entityManager;
 	private TransactionManager transactionManager;
 
-	public TaskNoSQLDao(EntityManager entityManager) {
+	public TaskDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
 		// accessing JBoss's Transaction can be done differently but this one works
 		// nicely
