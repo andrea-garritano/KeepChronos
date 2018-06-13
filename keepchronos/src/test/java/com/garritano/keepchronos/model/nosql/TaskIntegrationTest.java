@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.dao;
+package com.garritano.keepchronos.model.nosql;
 
 import static org.junit.Assert.*;
 
@@ -16,18 +16,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.dao.nosql.TaskNoSQLDao;
 import com.garritano.keepchronos.model.nosql.Project;
 import com.garritano.keepchronos.model.nosql.Task;
 
-public class TaskNoSQLDaoIntegrationTest {
-
+public class TaskIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "infinispan-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	protected EntityManager entityManager;
 	private static TransactionManager transactionManager;
 	private Query query;
-	private TaskNoSQLDao taskDao;
 
 	private Project project_another;
 	private Task task1;
@@ -79,78 +76,70 @@ public class TaskNoSQLDaoIntegrationTest {
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
-
-		taskDao = new TaskNoSQLDao(entityManager);
 	}
 
 	@Test
-	public void testSave() throws Exception {
-		taskDao.save(task1);
+	public void testBasicPersistence() throws Exception {
 
-		assertEquals(task1, entityManager.createQuery("from Task where id =:id", Task.class)
-				.setParameter("id", task1.getId()).getSingleResult());
+		transactionManager.begin();
+		entityManager.persist(task1);
+		transactionManager.commit();
+
+		// Perform a simple query for all the Task entities
+		query = entityManager.createQuery("select p from Task p");
+
+		// We should have only one task in the database
+		assertTrue(query.getResultList().size() == 1);
+
+		// We should have the same title
+		assertTrue(((Task) query.getSingleResult()).getTitle().equals(task1.getTitle()));
+
+		// and the same description
+		assertTrue(((Task) query.getSingleResult()).getDescription().equals(task1.getDescription()));
+
+		// and the same id
+		assertTrue(((Task) query.getSingleResult()).getId() == (task1.getId()));
+
+		// and the same duration
+		assertTrue(((Task) query.getSingleResult()).getDuration() == (task1.getDuration()));
+
+		// and the same associate project
+		assertTrue(((Task) query.getSingleResult()).getProject().equals(project_another));
 	}
 
 	@Test
-	public void testEmptyGetAll() throws Exception {
-		assertTrue(taskDao.getAll().size() == 0);
+	public void testBasicPersistenceWithoutProject() throws Exception {
+		transactionManager.begin();
+		entityManager.persist(task2);
+		transactionManager.commit();
+
+		// Perform a simple query for all the Task entities
+		query = entityManager.createQuery("select p from Task p");
+
+		assertEquals(null, ((Task) query.getSingleResult()).getProject());
 	}
 
 	@Test
-	public void testOneGetAll() throws Exception {
-		taskDao.save(task1);
+	public void testMultiplePersistence() throws Exception {
+		transactionManager.begin();
+		entityManager.persist(task1);
+		transactionManager.commit();
 
-		assertEquals(task1, taskDao.getAll().get(0));
-		assertTrue(taskDao.getAll().size() == 1);
-	}
+		transactionManager.begin();
+		entityManager.persist(task2);
+		transactionManager.commit();
 
-	@Test
-	public void testMultipleGetAll() throws Exception {
-		taskDao.save(task1);
-		taskDao.save(task2);
+		// Perform a simple query for all the Task entities
+		Query query = entityManager.createQuery("select t from Task t");
 
-		assertTrue(taskDao.getAll().size() == 2);
-	}
-
-	@Test
-	public void testEmptyFindbyId() {
-		assertNull(taskDao.findById((long) -1));
-	}
-
-	@Test
-	public void testNotEmptyFindbyId() throws Exception {
-		taskDao.save(task1);
-
-		assertEquals(task1, taskDao.findById(task1.getId()));
-	}
-
-	@Test
-	public void testUpdate() throws Exception {
-		taskDao.save(task1);
-		task1.setDescription("new description!");
-		taskDao.update(task1);
-
-		assertEquals(task1.getDescription(), taskDao.findById(task1.getId()).getDescription());
-	}
-
-	@Test
-	public void testGetProjectByTaskIdWithNonExistingId() {
-		assertNull(taskDao.getProjectByTaskId((long) -1));
-	}
-
-	@Test
-	public void testGetProjectByTaskIdWithExistingId() throws Exception {
-		taskDao.save(task1);
-		assertEquals(task1.getProject(), taskDao.getProjectByTaskId(task1.getId()));
+		// We should have 2 tasks in the database
+		assertTrue(query.getResultList().size() == 2);
 	}
 
 	@After
 	public void tearDown() {
 		task1 = null;
 		task2 = null;
-		if (entityManager.getTransaction().isActive()) {
-			entityManager.getTransaction().rollback();
-		}
 		entityManager.close();
 	}
 
@@ -158,5 +147,4 @@ public class TaskNoSQLDaoIntegrationTest {
 	public static void tearDownClass() {
 		entityManagerFactory.close();
 	}
-
 }
