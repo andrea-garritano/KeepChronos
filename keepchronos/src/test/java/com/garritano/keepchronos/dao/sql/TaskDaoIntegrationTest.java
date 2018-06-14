@@ -40,8 +40,6 @@ public class TaskDaoIntegrationTest {
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
-		
-		taskDao = new TaskDao(entityManager);
 
 		project_another = new Project();
 		project_another.setTitle("Another project");
@@ -59,11 +57,16 @@ public class TaskDaoIntegrationTest {
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(30);
 		task1.setProject(project_another);
+
+		taskDao = new TaskDao(entityManager);
 	}
 
 	@Test
 	public void testSave() {
 		taskDao.save(task1);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 
 		assertEquals(task1, entityManager.createQuery("from Task where id =:id", Task.class)
 				.setParameter("id", task1.getId()).getSingleResult());
@@ -78,6 +81,9 @@ public class TaskDaoIntegrationTest {
 	public void testOneGetAll() {
 		taskDao.save(task1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(task1, taskDao.getAll().get(0));
 		assertTrue(taskDao.getAll().size() == 1);
 	}
@@ -86,6 +92,9 @@ public class TaskDaoIntegrationTest {
 	public void testMultipleGetAll() {
 		taskDao.save(task1);
 		taskDao.save(task2);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 
 		assertTrue(taskDao.getAll().size() == 2);
 	}
@@ -99,6 +108,9 @@ public class TaskDaoIntegrationTest {
 	public void testNotEmptyFindbyId() {
 		taskDao.save(task1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(task1, taskDao.findById(task1.getId()));
 	}
 
@@ -107,6 +119,9 @@ public class TaskDaoIntegrationTest {
 		taskDao.save(task1);
 		task1.setDescription("new description!");
 		taskDao.update(task1);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 
 		assertEquals(task1.getDescription(), taskDao.findById(task1.getId()).getDescription());
 	}
@@ -119,6 +134,10 @@ public class TaskDaoIntegrationTest {
 	@Test
 	public void testGetProjectByTaskIdWithExistingId() {
 		taskDao.save(task1);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(task1.getProject(), taskDao.getProjectByTaskId(task1.getId()));
 	}
 
@@ -126,9 +145,6 @@ public class TaskDaoIntegrationTest {
 	public void tearDown() {
 		task1 = null;
 		task2 = null;
-		if (entityManager.getTransaction().isActive()) {
-			entityManager.getTransaction().rollback();
-		}
 		entityManager.close();
 	}
 

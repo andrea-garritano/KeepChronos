@@ -2,10 +2,12 @@ package com.garritano.keepchronos.model.sql;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,7 +22,7 @@ public class ProjectIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
-	private Query query;
+	private TypedQuery<Project> query;
 
 	private Project project1;
 	private Project project2;
@@ -33,9 +35,9 @@ public class ProjectIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		entityManager.getTransaction().begin();
 
 		// make sure to drop the Project table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
 
@@ -47,42 +49,55 @@ public class ProjectIntegrationTest {
 		project2.setTitle("Second project");
 		project2.setDescription("This is my second project, wow!");
 	}
-	
+
 	private void transactionPersist(Project p) {
 		entityManager.getTransaction().begin();
 		entityManager.persist(p);
 		entityManager.getTransaction().commit();
 	}
 
+	/**
+	 * Perform a simple query for all the Project entities
+	 */
+	private List<Project> getAllProjects() {
+		//
+		entityManager.getTransaction().begin();
+		query = entityManager.createQuery("select p from Project p", Project.class);
+		entityManager.getTransaction().commit();
+		return query.getResultList();
+	}
+
 	@Test
 	public void testBasicPersistence() {
 		transactionPersist(project1);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		// Perform a simple query for all the Project entities
-		query = entityManager.createQuery("select p from Project p");
+		List<Project> projectsList = getAllProjects();
 
 		// We should have only one project in the database
-		assertTrue(query.getResultList().size() == 1);
+		assertTrue(projectsList.size() == 1);
 
 		// We should have the same title
-		assertEquals(project1.getTitle(), ((Project) query.getSingleResult()).getTitle());
+		assertEquals(project1.getTitle(), projectsList.get(0).getTitle());
 
 		// and the same description
-		assertEquals(project1.getDescription(), ((Project) query.getSingleResult()).getDescription());
+		assertEquals(project1.getDescription(), projectsList.get(0).getDescription());
 	}
 
 	@Test
 	public void testMultiplePersistence() {
 		transactionPersist(project1);
 		transactionPersist(project2);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		// Perform a simple query for all the Project entities
-		query = entityManager.createQuery("select p from Project p");
+		List<Project> projectsList = getAllProjects();
 
 		// We should have 2 projects in the database
-		assertTrue(query.getResultList().size() == 2);
+		assertTrue(projectsList.size() == 2);
 	}
 
 	@After

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -63,11 +62,6 @@ public class TaskIntegrationTest {
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
 
-		// get a new EM to make sure data is actually retrieved from the store and not
-		// Hibernate’s internal cache
-		entityManager.close();
-		entityManager = entityManagerFactory.createEntityManager();
-
 		project_another = new Project();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
@@ -90,53 +84,69 @@ public class TaskIntegrationTest {
 		entityManager.persist(t);
 		transactionManager.commit();
 	}
+	
+	/**
+	 * Perform a simple query for all the Project entities
+	 */
+	private List<Task> getAllTasks() {
+		entityManager.getTransaction().begin();
+		query = entityManager.createQuery("select p from Task p", Task.class);
+		entityManager.getTransaction().commit();
+		return query.getResultList();
+	}
 
 	@Test
 	public void testBasicPersistence() throws NotSupportedException, SystemException, RollbackException,
-	HeuristicMixedException, HeuristicRollbackException{
+			HeuristicMixedException, HeuristicRollbackException {
 		transactPersist(task1);
 
-		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p", Task.class);
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
+		List<Task> projectsList = getAllTasks();
 
 		// We should have only one task in the database
-		assertTrue(query.getResultList().size() == 1);
+		assertTrue(projectsList.size() == 1);
 
 		// We should have the same title
-		assertEquals(task1.getTitle(), ((Task) query.getSingleResult()).getTitle());
+		assertEquals(task1.getTitle(), projectsList.get(0).getTitle());
 
 		// and the same description
-		assertEquals(task1.getDescription(), ((Task) query.getSingleResult()).getDescription());
+		assertEquals(task1.getDescription(), projectsList.get(0).getDescription());
 
 		// and the same duration
-		assertEquals(task1.getDuration(), ((Task) query.getSingleResult()).getDuration());
+		assertEquals(task1.getDuration(), projectsList.get(0).getDuration());
 
 		// and the same associate project
-		assertEquals(project_another, ((Task) query.getSingleResult()).getProject());
+		assertEquals(project_another, projectsList.get(0).getProject());
 	}
 
 	@Test
 	public void testBasicPersistenceWithoutProject() throws NotSupportedException, SystemException, RollbackException,
-	HeuristicMixedException, HeuristicRollbackException{
+			HeuristicMixedException, HeuristicRollbackException {
 		transactPersist(task2);
 
-		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p", Task.class);
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 
-		assertEquals(null, ((Task) query.getSingleResult()).getProject());
+		List<Task> projectsList = getAllTasks();
+
+		assertEquals(null, projectsList.get(0).getProject());
 	}
 
 	@Test
 	public void testMultiplePersistence() throws NotSupportedException, SystemException, RollbackException,
-	HeuristicMixedException, HeuristicRollbackException{
+			HeuristicMixedException, HeuristicRollbackException {
 		transactPersist(task1);
 		transactPersist(task2);
 
-		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select t from Task t");
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
+		List<Task> projectsList = getAllTasks();
 
 		// We should have 2 tasks in the database
-		assertTrue(query.getResultList().size() == 2);
+		assertTrue(projectsList.size() == 2);
 	}
 
 	@After

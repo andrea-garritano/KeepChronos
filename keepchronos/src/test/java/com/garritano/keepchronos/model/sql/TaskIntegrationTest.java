@@ -2,10 +2,12 @@ package com.garritano.keepchronos.model.sql;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,7 +23,7 @@ public class TaskIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
-	private Query query;
+	private TypedQuery<Task> query;
 
 	private Project project_another;
 	private Task task1;
@@ -35,12 +37,12 @@ public class TaskIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		
+
 		// make sure to drop the Task table for testing
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
-		
+
 		// make sure to drop the Task table for testing
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
@@ -62,34 +64,46 @@ public class TaskIntegrationTest {
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
 	}
-	
+
 	private void transactionPersist(Task t) {
 		entityManager.getTransaction().begin();
 		entityManager.persist(t);
 		entityManager.getTransaction().commit();
 	}
 
+	/**
+	 * Perform a simple query for all the Project entities
+	 */
+	private List<Task> getAllTasks() {
+		entityManager.getTransaction().begin();
+		query = entityManager.createQuery("select p from Task p", Task.class);
+		entityManager.getTransaction().commit();
+		return query.getResultList();
+	}
+
 	@Test
 	public void testBasicPersistence() {
 		transactionPersist(task1);
 
-		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p");
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
+		List<Task> projectsList = getAllTasks();
 
 		// We should have only one task in the database
-		assertTrue(query.getResultList().size() == 1);
+		assertTrue(projectsList.size() == 1);
 
 		// We should have the same title
-		assertTrue(((Task) query.getSingleResult()).getTitle().equals(task1.getTitle()));
+		assertEquals(task1.getTitle(), projectsList.get(0).getTitle());
 
 		// and the same description
-		assertTrue(((Task) query.getSingleResult()).getDescription().equals(task1.getDescription()));
+		assertEquals(task1.getDescription(), projectsList.get(0).getDescription());
 
 		// and the same associate project
-		assertTrue(((Task) query.getSingleResult()).getProject().equals(project_another));
+		assertEquals(project_another, projectsList.get(0).getProject());
 
 		// and the same duration
-		assertTrue(((Task) query.getSingleResult()).getDuration() == (task1.getDuration()));
+		assertEquals(task1.getDuration(), projectsList.get(0).getDuration());
 	}
 
 	@Test
@@ -97,11 +111,13 @@ public class TaskIntegrationTest {
 		transactionPersist(task1);
 		transactionPersist(task2);
 
-		// Perform a simple query for all the Task entities
-		query = entityManager.createQuery("select p from Task p");
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
+		List<Task> projectsList = getAllTasks();
 
 		// We should have 2 tasks in the database
-		assertTrue(query.getResultList().size() == 2);
+		assertTrue(projectsList.size() == 2);
 	}
 
 	@After
