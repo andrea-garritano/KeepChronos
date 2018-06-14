@@ -63,11 +63,6 @@ public class TaskIntegrationTest {
 		assertTrue(query.getResultList().size() == 0);
 		transactionManager.commit();
 
-		// get a new EM to make sure data is actually retrieved from the store and not
-		// Hibernate’s internal cache
-		entityManager.close();
-		entityManager = entityManagerFactory.createEntityManager();
-
 		project_another = new Project();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
@@ -95,6 +90,9 @@ public class TaskIntegrationTest {
 	public void testBasicPersistence() throws NotSupportedException, SystemException, RollbackException,
 	HeuristicMixedException, HeuristicRollbackException{
 		transactPersist(task1);
+		
+		//Clear Hibernate’s internal cache to make sure data is actually retrieved from the store
+		entityManager.clear();
 
 		// Perform a simple query for all the Task entities
 		query = entityManager.createQuery("select p from Task p", Task.class);
@@ -119,6 +117,9 @@ public class TaskIntegrationTest {
 	public void testBasicPersistenceWithoutProject() throws NotSupportedException, SystemException, RollbackException,
 	HeuristicMixedException, HeuristicRollbackException{
 		transactPersist(task2);
+		
+		//Clear Hibernate’s internal cache to make sure data is actually retrieved from the store
+		entityManager.clear();
 
 		// Perform a simple query for all the Task entities
 		query = entityManager.createQuery("select p from Task p", Task.class);
@@ -133,7 +134,7 @@ public class TaskIntegrationTest {
 		transactPersist(task2);
 
 		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select t from Task t");
+		query = entityManager.createQuery("select t from Task t", Task.class);
 
 		// We should have 2 tasks in the database
 		assertTrue(query.getResultList().size() == 2);

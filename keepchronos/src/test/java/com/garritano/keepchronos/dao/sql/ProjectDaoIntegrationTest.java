@@ -38,7 +38,7 @@ public class ProjectDaoIntegrationTest {
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
 		entityManager.getTransaction().commit();
-		
+
 		projectDao = new ProjectDao(entityManager);
 
 		project1 = new Project();
@@ -54,6 +54,9 @@ public class ProjectDaoIntegrationTest {
 	public void testSave() {
 		projectDao.save(project1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(project1, entityManager.createQuery("from Project where id =:id", Project.class)
 				.setParameter("id", project1.getId()).getSingleResult());
 	}
@@ -67,6 +70,9 @@ public class ProjectDaoIntegrationTest {
 	public void testOneGetAll() {
 		projectDao.save(project1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(project1, projectDao.getAll().get(0));
 		assertTrue(projectDao.getAll().size() == 1);
 	}
@@ -75,6 +81,9 @@ public class ProjectDaoIntegrationTest {
 	public void testMultipleGetAll() {
 		projectDao.save(project1);
 		projectDao.save(project2);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 
 		assertTrue(projectDao.getAll().size() == 2);
 	}
@@ -88,6 +97,9 @@ public class ProjectDaoIntegrationTest {
 	public void testNotEmptyFindbyId() {
 		projectDao.save(project1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(project1, projectDao.findById(project1.getId()));
 	}
 
@@ -97,6 +109,9 @@ public class ProjectDaoIntegrationTest {
 		project1.setDescription("new description!");
 		projectDao.update(project1);
 
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
 		assertEquals(project1.getDescription(), projectDao.findById(project1.getId()).getDescription());
 	}
 
@@ -104,9 +119,6 @@ public class ProjectDaoIntegrationTest {
 	public void tearDown() {
 		project1 = null;
 		project2 = null;
-		if (entityManager.getTransaction().isActive()) {
-			entityManager.getTransaction().rollback();
-		}
 		entityManager.close();
 	}
 
