@@ -75,7 +75,6 @@ public class TaskIntegrationTest {
 	 * Perform a simple query for all the Project entities
 	 */
 	private List<Task> getAllTasks() {
-		//
 		entityManager.getTransaction().begin();
 		query = entityManager.createQuery("select p from Task p", Task.class);
 		entityManager.getTransaction().commit();
