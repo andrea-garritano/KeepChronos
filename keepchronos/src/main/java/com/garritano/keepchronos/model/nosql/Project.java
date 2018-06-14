@@ -48,13 +48,17 @@ public class Project{
 		if (description == null) {
 			if (other.description != null)
 				return false;
-		} else if (!description.equals(other.description))
+		}
+		else if (!description.equals(other.description)) {
 			return false;
+		}
 		if (title == null) {
 			if (other.title != null)
 				return false;
-		} else if (!title.equals(other.title))
+		}
+		else if (!title.equals(other.title)) {
 			return false;
+		}
 		return true;
 	}
 }
