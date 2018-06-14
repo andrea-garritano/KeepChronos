@@ -43,8 +43,6 @@ public class Task extends BasicEntity {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
 		Task other = (Task) obj;
 		if (duration != other.duration)
 			return false;
