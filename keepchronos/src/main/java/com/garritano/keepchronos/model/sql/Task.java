@@ -51,8 +51,9 @@ public class Task extends BasicEntity {
 		if (project == null) {
 			if (other.project != null)
 				return false;
-		} else if (!project.equals(other.project))
+		} else if (!project.equals(other.project)) {
 			return false;
+		}
 		return true;
 	}
 }
