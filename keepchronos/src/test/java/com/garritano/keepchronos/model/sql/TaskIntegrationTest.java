@@ -21,6 +21,7 @@ public class TaskIntegrationTest {
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
+	private Query query;
 
 	private Project project_another;
 	private Task task1;
@@ -35,8 +36,8 @@ public class TaskIntegrationTest {
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
 		
-		entityManager.getTransaction().begin();
 		// make sure to drop the Task table for testing
+		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
 		
@@ -60,16 +61,20 @@ public class TaskIntegrationTest {
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(20);
+	}
+	
+	private void transactionPersist(Task t) {
 		entityManager.getTransaction().begin();
+		entityManager.persist(t);
+		entityManager.getTransaction().commit();
 	}
 
 	@Test
 	public void testBasicPersistence() {
-		entityManager.persist(task1);
-		entityManager.getTransaction().commit();
+		transactionPersist(task1);
 
 		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p");
 
 		// We should have only one task in the database
 		assertTrue(query.getResultList().size() == 1);
@@ -80,9 +85,6 @@ public class TaskIntegrationTest {
 		// and the same description
 		assertTrue(((Task) query.getSingleResult()).getDescription().equals(task1.getDescription()));
 
-		// and the same id
-		assertTrue(((Task) query.getSingleResult()).getId() == (task1.getId()));
-
 		// and the same associate project
 		assertTrue(((Task) query.getSingleResult()).getProject().equals(project_another));
 
@@ -92,12 +94,11 @@ public class TaskIntegrationTest {
 
 	@Test
 	public void testMultiplePersistence() {
-		entityManager.persist(task1);
-		entityManager.persist(task2);
-		entityManager.getTransaction().commit();
+		transactionPersist(task1);
+		transactionPersist(task2);
 
 		// Perform a simple query for all the Task entities
-		Query query = entityManager.createQuery("select p from Task p");
+		query = entityManager.createQuery("select p from Task p");
 
 		// We should have 2 tasks in the database
 		assertTrue(query.getResultList().size() == 2);
