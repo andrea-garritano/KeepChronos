@@ -80,6 +80,12 @@
 						<groupId>org.jacoco</groupId>
 						<artifactId>jacoco-maven-plugin</artifactId>
 						<version>0.7.7.201606060606</version>
+						<configuration>
+							<excludes>
+								<!-- Exclude model classes -->
+								<exclude>**/model/**/*.class</exclude>
+							</excludes>
+						</configuration>
 						<executions>
 							<execution>
 								<id>pre-unit-test</id>
@@ -89,6 +95,10 @@
 								<configuration>
 									<destFile>${jacoco.data.file}</destFile>
 									<propertyName>surefireArgLine</propertyName>
+									<excludes>
+										<!-- Exclude model classes -->
+										<exclude>**/model/**/*.class</exclude>
+									</excludes>
 								</configuration>
 							</execution>
 							<execution>
