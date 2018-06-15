@@ -19,7 +19,9 @@
 		<jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
 		<sonar.language>java</sonar.language>
 		<sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
-		<sonar.coverage.exclusions>**/model/**</sonar.coverage.exclusions>
+		<sonar.coverage.exclusions>
+			**/model/**
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -45,14 +47,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.46</version>
 		</dependency>
-		
+
 		<!-- JDBC (Java DataBase Connectivity) PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.3-1102-jdbc41</version>
 		</dependency>
-		
+
 		<!-- JUnit dependence -->
 		<dependency>
 			<groupId>junit</groupId>
