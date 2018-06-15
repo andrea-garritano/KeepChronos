@@ -19,6 +19,7 @@
 		<jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
 		<sonar.language>java</sonar.language>
 		<sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
+		<sonar.coverage.exclusions>**/model/**/*.class</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
@@ -44,7 +45,8 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.46</version>
 		</dependency>
-
+		
+		<!-- JUnit dependence -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
