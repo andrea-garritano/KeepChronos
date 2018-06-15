@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.garritano.keepchronos.model.Project;
+import com.garritano.keepchronos.model.Task;
+
 public class TaskTest {
 	
 	private Task task1;

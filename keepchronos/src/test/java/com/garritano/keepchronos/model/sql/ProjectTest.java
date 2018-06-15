@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.garritano.keepchronos.model.Project;
+
 public class ProjectTest {
 	
 	private Project project1;
