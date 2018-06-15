@@ -21,44 +21,11 @@
 		<sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.hibernate.ogm</groupId>
-				<artifactId>hibernate-ogm-bom</artifactId>
-				<version>5.3.1.Final</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
-		<dependency>
-			<groupId>org.hibernate.ogm</groupId>
-			<artifactId>hibernate-ogm-core</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.ogm</groupId>
-			<artifactId>hibernate-ogm-infinispan-embedded</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.narayana.jta</groupId>
-			<artifactId>narayana-jta</artifactId>
-			<version>5.5.23.Final</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-search-orm</artifactId>
+			<version>5.10.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -77,7 +44,9 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
+			<version>5.3.1.Final</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>mysql</groupId>
