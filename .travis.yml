@@ -8,7 +8,7 @@ services:
   - postgresql
   
 before_script:
-  - psql -c 'create database keeptime;' -U postgres
+  - psql -c 'create database timekeep;' -U postgres
 
 addons:
  sonarcloud:
