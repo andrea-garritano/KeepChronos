@@ -39,10 +39,26 @@ services:
       - MYSQL_DATABASE=timekeep
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
 
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ""
+      POSTGRES_DB: timekeep
+      PGDATA: /data/postgres
+    volumes:
+       - /data/postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+
 networks:
   sonarnet:
     driver: bridge
   mysqlnet:
+    driver: bridge
+  postgres:
     driver: bridge
 
 volumes:
