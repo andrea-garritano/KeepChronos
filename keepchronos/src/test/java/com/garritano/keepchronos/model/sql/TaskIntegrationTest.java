@@ -15,8 +15,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.garritano.keepchronos.model.sql.Project;
-import com.garritano.keepchronos.model.sql.Task;
+import com.garritano.keepchronos.model.Project;
+import com.garritano.keepchronos.model.Task;
 
 public class TaskIntegrationTest {
 

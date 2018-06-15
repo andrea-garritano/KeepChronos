@@ -1,9 +1,7 @@
-package com.garritano.keepchronos.model.sql;
+package com.garritano.keepchronos.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-
-import com.garritano.keepchronos.model.BasicEntity;
 
 @Entity
 public class Task extends BasicEntity {
@@ -39,19 +37,27 @@ public class Task extends BasicEntity {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!super.equals(obj))
+		}
+		if (!super.equals(obj)) {
 			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		Task other = (Task) obj;
-		if (duration != other.duration)
+		if (duration != other.duration) {
 			return false;
+		}
 		if (project == null) {
-			if (other.project != null)
+			if (other.project != null) {
 				return false;
+			}
 		} else if (!project.equals(other.project)) {
 			return false;
 		}
 		return true;
 	}
+
 }

@@ -1,5 +1,2 @@
 /target/
 /bin/
-/ObjectStore/
-/PutObjectStoreDirHere/
-/com.garritano.keepchronos.model.nosql.Task/

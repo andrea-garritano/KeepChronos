@@ -14,8 +14,8 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 		<!-- The provider specifies the JPA implementation that you want to use 
 			(Hibernate) -->
 
-		<class>com.garritano.keepchronos.model.sql.Project</class>
-		<class>com.garritano.keepchronos.model.sql.Task</class>
+		<class>com.garritano.keepchronos.model.Project</class>
+		<class>com.garritano.keepchronos.model.Task</class>
 		<!-- Specify names of managed persistable classes -->
 
 		<properties>
@@ -47,20 +47,6 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 			<!-- format_sql=true permits to view formatted queries in console -->
 
 		</properties>
-
 	</persistence-unit>
-    
-    <persistence-unit name="infinispan-pu" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-        <!-- The provider specifies the JPA implementation that you want to use 
-			(Hibernate OGM) -->
-        
-        <class>com.garritano.keepchronos.model.nosql.Task</class>
-        <class>com.garritano.keepchronos.model.nosql.Project</class>
-        <properties>
-            <property name="hibernate.ogm.datastore.provider" value="infinispan_embedded"/>
-            <!-- datastore provider you want to use -->
-        </properties>
-    </persistence-unit>
 
 </persistence>
