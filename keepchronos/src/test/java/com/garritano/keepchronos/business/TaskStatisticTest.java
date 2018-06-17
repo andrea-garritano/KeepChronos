@@ -113,8 +113,4 @@ public class TaskStatisticTest {
 		
 		assertAverageDuration(25);
 	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 }

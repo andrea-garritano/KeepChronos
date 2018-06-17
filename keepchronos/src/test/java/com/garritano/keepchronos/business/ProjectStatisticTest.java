@@ -49,8 +49,4 @@ public class ProjectStatisticTest {
 		projects.add(new Project());
 		assertNumberOfProject(2);
 	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 }
