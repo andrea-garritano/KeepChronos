@@ -13,8 +13,8 @@ import org.junit.Test;
 import com.garritano.keepchronos.dao.ProjectDaoInterface;
 import com.garritano.keepchronos.model.Project;
 
-public class StatisticTest {
-	private Statistic statistic;
+public class ProjectStatisticTest {
+	private ProjectStatistic statistic;
 	private ProjectDaoInterface projectDaoInterface;
 	private List<Project> projects;
 
@@ -24,7 +24,7 @@ public class StatisticTest {
 		projectDaoInterface = mock(ProjectDaoInterface.class);
 		when(projectDaoInterface.getAll()).thenReturn(projects);
 		
-		statistic = new Statistic(projectDaoInterface);
+		statistic = new ProjectStatistic(projectDaoInterface);
 	}
 
 	private void assertNumberOfProject(int expected) {

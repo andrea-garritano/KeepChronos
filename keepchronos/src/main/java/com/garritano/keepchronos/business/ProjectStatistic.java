@@ -5,10 +5,10 @@ import java.util.List;
 import com.garritano.keepchronos.dao.ProjectDaoInterface;
 import com.garritano.keepchronos.model.Project;
 
-public class Statistic {
+public class ProjectStatistic {
 	private ProjectDaoInterface projectDaoInterface;
 	
-	public Statistic(ProjectDaoInterface projectDaoInterface) {
+	public ProjectStatistic(ProjectDaoInterface projectDaoInterface) {
 		super();
 		this.projectDaoInterface = projectDaoInterface;
 	}
@@ -18,5 +18,4 @@ public class Statistic {
 		
 		return projects.size();
 	}
-
 }
