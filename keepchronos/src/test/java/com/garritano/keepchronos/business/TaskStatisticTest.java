@@ -22,7 +22,7 @@ public class TaskStatisticTest {
 		tasks = new ArrayList<Task>();
 		taskDaoInterface = mock(TaskDaoInterface.class);
 		when(taskDaoInterface.getAll()).thenReturn(tasks);
-		
+
 		statistic = new TaskStatistic(taskDaoInterface);
 	}
 
@@ -41,75 +41,75 @@ public class TaskStatisticTest {
 		tasks.add(new Task());
 		assertNumberOfTask(1);
 	}
-	
+
 	@Test
 	public void testMultipleTasks() {
 		tasks.add(new Task());
 		tasks.add(new Task());
 		assertNumberOfTask(2);
 	}
-	
+
 	private void assertTotalDuration(int expected) {
 		int durationTotal = statistic.getTotalDuration();
 		assertEquals(expected, durationTotal);
 	}
-	
+
 	@Test
 	public void testSumDurationNoTask() {
 		assertTotalDuration(0);
 	}
-	
+
 	@Test
 	public void testSumDurationOneTask() {
 		Task tempTask = new Task();
 		tempTask.setDuration(20);
 		tasks.add(tempTask);
-		
+
 		assertTotalDuration(20);
 	}
-	
+
 	@Test
 	public void testSumDurationMultipleTasks() {
 		Task tempTask1 = new Task();
 		tempTask1.setDuration(20);
 		tasks.add(tempTask1);
-		
+
 		Task tempTask2 = new Task();
 		tempTask2.setDuration(30);
 		tasks.add(tempTask2);
-		
+
 		assertTotalDuration(50);
 	}
-	
+
 	private void assertAverageDuration(int expected) {
 		int averageDurarion = statistic.getAverageDuration();
 		assertEquals(expected, averageDurarion);
 	}
-	
+
 	@Test
 	public void testAverageDurarionNoTask() {
 		assertAverageDuration(0);
 	}
-	
+
 	@Test
 	public void testAverageDurarionOneTask() {
 		Task tempTask = new Task();
 		tempTask.setDuration(20);
 		tasks.add(tempTask);
-		
+
 		assertAverageDuration(20);
 	}
-	
+
 	@Test
 	public void testAverageDurarionMultipleTasks() {
 		Task tempTask1 = new Task();
 		tempTask1.setDuration(20);
 		tasks.add(tempTask1);
-		
+
 		Task tempTask2 = new Task();
 		tempTask2.setDuration(30);
 		tasks.add(tempTask2);
-		
+
 		assertAverageDuration(25);
 	}
 }

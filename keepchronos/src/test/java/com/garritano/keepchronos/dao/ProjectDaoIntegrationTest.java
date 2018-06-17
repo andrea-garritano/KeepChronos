@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.dao.sql;
+package com.garritano.keepchronos.dao;
 
 import static org.junit.Assert.*;
 
@@ -12,20 +12,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.garritano.keepchronos.dao.ProjectDao;
 import com.garritano.keepchronos.dao.TaskDao;
 import com.garritano.keepchronos.model.Project;
 import com.garritano.keepchronos.model.Task;
 
-public class TaskDaoIntegrationTest {
+public class ProjectDaoIntegrationTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "mysql-pu";
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
-	private TaskDao taskDao;
+	private ProjectDao projectDao;
 
-	private Project project_another;
-	private Task task1;
-	private Task task2;
+	private Project project1;
+	private Project project2;
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -41,110 +41,116 @@ public class TaskDaoIntegrationTest {
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
 		entityManager.getTransaction().commit();
 
-		project_another = new Project();
-		project_another.setTitle("Another project");
-		project_another.setDescription("Another exciting project!");
-		entityManager.persist(project_another);
+		// make sure to drop the Project table for testing
+		entityManager.getTransaction().begin();
+		entityManager.createNativeQuery("delete from Project").executeUpdate();
+		entityManager.getTransaction().commit();
 
-		task1 = new Task();
-		task1.setTitle("First task");
-		task1.setDescription("This is my first task, hi!");
-		task1.setDuration(20);
-		task1.setProject(project_another);
+		projectDao = new ProjectDao(entityManager);
 
-		task2 = new Task();
-		task2.setTitle("Second task");
-		task2.setDescription("This is my second task, wow!");
-		task2.setDuration(30);
-		task1.setProject(project_another);
+		project1 = new Project();
+		project1.setTitle("First project");
+		project1.setDescription("This is my first project, hi!");
 
-		taskDao = new TaskDao(entityManager);
+		project2 = new Project();
+		project2.setTitle("Second project");
+		project2.setDescription("This is my second project, wow!");
 	}
 
 	@Test
 	public void testSave() {
-		taskDao.save(task1);
+		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertEquals(task1, entityManager.createQuery("from Task where id =:id", Task.class)
-				.setParameter("id", task1.getId()).getSingleResult());
+		assertEquals(project1, entityManager.createQuery("from Project where id =:id", Project.class)
+				.setParameter("id", project1.getId()).getSingleResult());
 	}
 
 	@Test
 	public void testEmptyGetAll() {
-		assertTrue(taskDao.getAll().size() == 0);
+		assertTrue(projectDao.getAll().size() == 0);
 	}
 
 	@Test
 	public void testOneGetAll() {
-		taskDao.save(task1);
+		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertEquals(task1, taskDao.getAll().get(0));
-		assertTrue(taskDao.getAll().size() == 1);
+		assertEquals(project1, projectDao.getAll().get(0));
+		assertTrue(projectDao.getAll().size() == 1);
 	}
 
 	@Test
 	public void testMultipleGetAll() {
-		taskDao.save(task1);
-		taskDao.save(task2);
+		projectDao.save(project1);
+		projectDao.save(project2);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertTrue(taskDao.getAll().size() == 2);
+		assertTrue(projectDao.getAll().size() == 2);
 	}
 
 	@Test
 	public void testEmptyFindbyId() {
-		assertNull(taskDao.findById((long) -1));
+		assertNull(projectDao.findById((long) 34214342));
 	}
 
 	@Test
 	public void testNotEmptyFindbyId() {
-		taskDao.save(task1);
+		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertEquals(task1, taskDao.findById(task1.getId()));
+		assertEquals(project1, projectDao.findById(project1.getId()));
 	}
 
 	@Test
 	public void testUpdate() {
-		taskDao.save(task1);
-		task1.setDescription("new description!");
-		taskDao.update(task1);
+		projectDao.save(project1);
+		project1.setDescription("new description!");
+		projectDao.update(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertEquals(task1.getDescription(), taskDao.findById(task1.getId()).getDescription());
+		assertEquals(project1.getDescription(), projectDao.findById(project1.getId()).getDescription());
 	}
 
 	@Test
-	public void testGetProjectByTaskIdWithNonExistingId() {
-		assertNull(taskDao.getProjectByTaskId((long) -1));
-	}
-
-	@Test
-	public void testGetProjectByTaskIdWithExistingId() {
-		taskDao.save(task1);
+	public void testGetTasksWithNoTask() {
+		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
 
-		assertEquals(task1.getProject(), taskDao.getProjectByTaskId(task1.getId()));
+		assertEquals(0, projectDao.getTasks(project1).size());
+	}
+
+	@Test
+	public void testGetTasksWithOneTask() {
+		projectDao.save(project1);
+
+		Task tempTask = new Task();
+		tempTask.setProject(project1);
+		TaskDao taskDao = new TaskDao(entityManager);
+		taskDao.save(tempTask);
+
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+
+		assertEquals(tempTask, projectDao.getTasks(project1).get(0));
 	}
 
 	@After
 	public void tearDown() {
-		task1 = null;
-		task2 = null;
+		project1 = null;
+		project2 = null;
 		entityManager.close();
 	}
 

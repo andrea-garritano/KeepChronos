@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.model.sql;
+package com.garritano.keepchronos.model;
 
 import static org.junit.Assert.*;
 
