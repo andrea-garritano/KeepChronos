@@ -1,4 +1,4 @@
-package com.garritano.keepchronos.dao.sql;
+package com.garritano.keepchronos.dao;
 
 import static org.junit.Assert.*;
 
