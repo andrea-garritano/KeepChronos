@@ -19,4 +19,13 @@ public class TaskStatistic {
 		return tasks.size();
 	}
 
+	public int getTotalDuration() {
+		List<Task> tasks = taskDaoInterface.getAll();
+		int sum = 0;
+		for (Task task : tasks) {
+			sum+= task.getDuration();
+		}
+		return sum;
+	}
+
 }

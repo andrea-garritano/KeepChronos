@@ -49,6 +49,40 @@ public class TaskStatisticTest {
 		tasks.add(new Task());
 		assertNumberOfTask(2);
 	}
+	
+	private void assertTotalDuration(int expected) {
+		int durationTotal = statistic.getTotalDuration();
+		assertEquals(expected, durationTotal);
+	}
+	
+	@Test
+	public void testSumDurationNoTask() {
+		assertTotalDuration(0);
+	}
+	
+	@Test
+	public void testSumDurationOneTask() {
+		Task temp_task = new Task();
+		temp_task.setDuration(20);
+		tasks.add(temp_task);
+		
+		assertTotalDuration(20);
+	}
+	
+	@Test
+	public void testSumDurationMultipleTasks() {
+		Task tempTask1 = new Task();
+		tempTask1.setDuration(20);
+		tasks.add(tempTask1);
+		
+		Task tempTask2 = new Task();
+		tempTask2.setDuration(30);
+		tasks.add(tempTask2);
+		
+		assertTotalDuration(50);
+	}
+	
+
 
 	@After
 	public void tearDown() throws Exception {
