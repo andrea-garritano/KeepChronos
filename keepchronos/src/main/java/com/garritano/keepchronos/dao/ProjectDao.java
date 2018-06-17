@@ -5,8 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.garritano.keepchronos.model.Project;
+import com.garritano.keepchronos.model.Task;
 
-public class ProjectDao {
+public class ProjectDao implements ProjectDaoInterface{
 
 	private EntityManager entityManager;
 
@@ -32,5 +33,11 @@ public class ProjectDao {
 		entityManager.getTransaction().begin();
 		entityManager.merge(project);
 		entityManager.getTransaction().commit();
+	}
+
+	@Override
+	public List<Task> getTasks(Project tempProject) {
+		return entityManager.createQuery("select t from Task t where project_id = :project_id", Task.class)
+				.setParameter("project_id", tempProject.getId()).getResultList();
 	}
 }

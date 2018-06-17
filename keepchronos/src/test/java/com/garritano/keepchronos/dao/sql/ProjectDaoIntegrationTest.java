@@ -13,7 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.garritano.keepchronos.dao.ProjectDao;
+import com.garritano.keepchronos.dao.TaskDao;
 import com.garritano.keepchronos.model.Project;
+import com.garritano.keepchronos.model.Task;
 
 public class ProjectDaoIntegrationTest {
 
@@ -33,6 +35,11 @@ public class ProjectDaoIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
+		
+		// make sure to drop the Task table for testing
+		entityManager.getTransaction().begin();
+		entityManager.createNativeQuery("delete from Task").executeUpdate();
+		entityManager.getTransaction().commit();
 
 		// make sure to drop the Project table for testing
 		entityManager.getTransaction().begin();
@@ -113,6 +120,24 @@ public class ProjectDaoIntegrationTest {
 		entityManager.clear();
 
 		assertEquals(project1.getDescription(), projectDao.findById(project1.getId()).getDescription());
+	}
+	
+	@Test
+	public void testGetTasksWithNoTask() {
+		projectDao.save(project1);
+		assertEquals(0, projectDao.getTasks(project1).size());
+	}
+	
+	@Test
+	public void testGetTasksWithOneTask() {
+		projectDao.save(project1);
+		
+		Task tempTask = new Task();
+		tempTask.setProject(project1);
+		TaskDao taskDao = new TaskDao(entityManager);
+		taskDao.save(tempTask);
+		
+		assertEquals(tempTask, projectDao.getTasks(project1).get(0));
 	}
 
 	@After

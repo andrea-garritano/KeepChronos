@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import com.garritano.keepchronos.model.Project;
 import com.garritano.keepchronos.model.Task;
 
-public class TaskDao {
+public class TaskDao implements TaskDaoInterface{
 
 	private EntityManager entityManager;
 
