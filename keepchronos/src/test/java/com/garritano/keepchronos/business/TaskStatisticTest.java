@@ -61,9 +61,9 @@ public class TaskStatisticTest {
 	
 	@Test
 	public void testSumDurationOneTask() {
-		Task temp_task = new Task();
-		temp_task.setDuration(20);
-		tasks.add(temp_task);
+		Task tempTask = new Task();
+		tempTask.setDuration(20);
+		tasks.add(tempTask);
 		
 		assertTotalDuration(20);
 	}
@@ -93,9 +93,9 @@ public class TaskStatisticTest {
 	
 	@Test
 	public void testAverageDurarionOneTask() {
-		Task temp_task = new Task();
-		temp_task.setDuration(20);
-		tasks.add(temp_task);
+		Task tempTask = new Task();
+		tempTask.setDuration(20);
+		tasks.add(tempTask);
 		
 		assertAverageDuration(20);
 	}
