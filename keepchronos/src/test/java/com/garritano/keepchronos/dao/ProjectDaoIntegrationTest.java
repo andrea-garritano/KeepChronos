@@ -35,7 +35,7 @@ public class ProjectDaoIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
-		
+
 		// make sure to drop the Task table for testing
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Task").executeUpdate();
@@ -121,29 +121,29 @@ public class ProjectDaoIntegrationTest {
 
 		assertEquals(project1.getDescription(), projectDao.findById(project1.getId()).getDescription());
 	}
-	
+
 	@Test
 	public void testGetTasksWithNoTask() {
 		projectDao.save(project1);
-		
+
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
-		
+
 		assertEquals(0, projectDao.getTasks(project1).size());
 	}
-	
+
 	@Test
 	public void testGetTasksWithOneTask() {
 		projectDao.save(project1);
-		
+
 		Task tempTask = new Task();
 		tempTask.setProject(project1);
 		TaskDao taskDao = new TaskDao(entityManager);
 		taskDao.save(tempTask);
-		
+
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
 		entityManager.clear();
-		
+
 		assertEquals(tempTask, projectDao.getTasks(project1).get(0));
 	}
 
