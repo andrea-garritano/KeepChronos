@@ -125,6 +125,10 @@ public class ProjectDaoIntegrationTest {
 	@Test
 	public void testGetTasksWithNoTask() {
 		projectDao.save(project1);
+		
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
+		
 		assertEquals(0, projectDao.getTasks(project1).size());
 	}
 	
@@ -136,6 +140,9 @@ public class ProjectDaoIntegrationTest {
 		tempTask.setProject(project1);
 		TaskDao taskDao = new TaskDao(entityManager);
 		taskDao.save(tempTask);
+		
+		// Clear Hibernate’s cache to make sure data is retrieved from the store
+		entityManager.clear();
 		
 		assertEquals(tempTask, projectDao.getTasks(project1).get(0));
 	}
