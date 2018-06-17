@@ -82,7 +82,37 @@ public class TaskStatisticTest {
 		assertTotalDuration(50);
 	}
 	
-
+	private void assertAverageDuration(int expected) {
+		int averageDurarion = statistic.getAverageDuration();
+		assertEquals(expected, averageDurarion);
+	}
+	
+	@Test
+	public void testAverageDurarionNoTask() {
+		assertAverageDuration(0);
+	}
+	
+	@Test
+	public void testAverageDurarionOneTask() {
+		Task temp_task = new Task();
+		temp_task.setDuration(20);
+		tasks.add(temp_task);
+		
+		assertAverageDuration(20);
+	}
+	
+	@Test
+	public void testAverageDurarionMultipleTasks() {
+		Task tempTask1 = new Task();
+		tempTask1.setDuration(20);
+		tasks.add(tempTask1);
+		
+		Task tempTask2 = new Task();
+		tempTask2.setDuration(30);
+		tasks.add(tempTask2);
+		
+		assertAverageDuration(25);
+	}
 
 	@After
 	public void tearDown() throws Exception {
