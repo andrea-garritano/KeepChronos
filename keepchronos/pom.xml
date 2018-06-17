@@ -6,7 +6,7 @@
 	<groupId>com.garritano</groupId>
 	<artifactId>keepchronos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>keepchronos</name>
 	<description>Simple Time Tracker</description>
@@ -166,5 +166,12 @@
 			</build>
 		</profile>
 	</profiles>
+	
+		<modules>
+		<module>app</module>
+		<module>database</module>
+		<module>mysql</module>
+		<module>postgresql</module>
+		</modules>
 
 </project>

@@ -35,7 +35,6 @@ public class ProjectDao implements ProjectDaoInterface {
 		entityManager.getTransaction().commit();
 	}
 
-	@Override
 	public List<Task> getTasks(Project tempProject) {
 		return entityManager.createQuery("select t from Task t where project_id = :project_id", Task.class)
 				.setParameter("project_id", tempProject.getId()).getResultList();
