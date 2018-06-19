@@ -170,7 +170,6 @@
 		<modules>
 		<module>app</module>
 		<module>database</module>
-		<module>mysql</module>
 		</modules>
 
 </project>
