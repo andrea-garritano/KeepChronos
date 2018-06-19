@@ -65,7 +65,7 @@
 							<version>4.3.0</version>
 							<configuration>
 								<jacocoReports>
-									<jacocoReport>${jacoco.report.path}/jacoco.xml</jacocoReport>
+									<jacocoReport>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
 								</jacocoReports>
 							</configuration>
 						</plugin>
