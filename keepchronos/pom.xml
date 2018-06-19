@@ -125,7 +125,7 @@
 								<id>post-unit-test</id>
 								<phase>test</phase>
 								<goals>
-									<goal>report-aggregate</goal>
+									<goal>report</goal>
 								</goals>
 								<configuration>
 									<dataFile>${jacoco.data.file}</dataFile>
