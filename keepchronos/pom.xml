@@ -6,7 +6,7 @@
 	<groupId>com.garritano</groupId>
 	<artifactId>keepchronos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>keepchronos</name>
 	<description>Simple Time Tracker</description>
@@ -41,20 +41,6 @@
 			<version>5.3.1.Final</version>
 		</dependency>
 
-		<!-- JDBC (Java DataBase Connectivity) for mySql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.46</version>
-		</dependency>
-
-		<!-- JDBC (Java DataBase Connectivity) PostgreSQL -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.3-1102-jdbc41</version>
-		</dependency>
-
 		<!-- JUnit dependence -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -62,16 +48,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!--  Mockito dependence -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-
-
 	</dependencies>
 
 	<profiles>
@@ -89,7 +65,7 @@
 							<version>4.3.0</version>
 							<configuration>
 								<jacocoReports>
-									<jacocoReport>${jacoco.report.path}/jacoco.xml</jacocoReport>
+									<jacocoReport>${project.basedir}/report/target/site/jacoco-aggregate/jacoco.xml</jacocoReport>
 								</jacocoReports>
 							</configuration>
 						</plugin>
@@ -114,6 +90,7 @@
 								</goals>
 								<configuration>
 									<destFile>${jacoco.data.file}</destFile>
+									<append>true</append>
 									<propertyName>surefireArgLine</propertyName>
 									<excludes>
 										<!-- Exclude model classes -->
@@ -166,5 +143,11 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<modules>
+		<module>app</module>
+		<module>database</module>
+		<module>report</module>
+	</modules>
 
 </project>
