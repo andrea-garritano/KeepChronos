@@ -15,4 +15,4 @@ addons:
   organization: "andryxxx-github"
 
 script:
-- mvn -X -f keepchronos/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
+- mvn -f keepchronos/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
