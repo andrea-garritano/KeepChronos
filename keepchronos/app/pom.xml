@@ -11,6 +11,7 @@
 	
 	<properties>
 		<jacoco.data.file>${project.build.directory}/coveragereports/jacoco.exec</jacoco.data.file>
+		<jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
 	</properties>
 	
 	<dependencies>
