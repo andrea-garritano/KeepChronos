@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -162,11 +160,11 @@ public class ProjectDaoIntegrationTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		projectDao = new ProjectDao(entityManager);
-		
+
 		project1 = new Project();
 		project1.setTitle("First project");
 		project1.setDescription("This is my first project, hi!");
-		
+
 		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
@@ -187,11 +185,11 @@ public class ProjectDaoIntegrationTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		projectDao = new ProjectDao(entityManager);
-		
+
 		project1 = new Project();
 		project1.setTitle("First project");
 		project1.setDescription("This is my first project, hi!");
-		
+
 		projectDao.save(project1);
 		project1.setDescription("new description!");
 		projectDao.update(project1);
@@ -214,11 +212,11 @@ public class ProjectDaoIntegrationTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		projectDao = new ProjectDao(entityManager);
-		
+
 		project1 = new Project();
 		project1.setTitle("First project");
 		project1.setDescription("This is my first project, hi!");
-		
+
 		projectDao.save(project1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
@@ -234,16 +232,16 @@ public class ProjectDaoIntegrationTest {
 		assertGetTasksWithNoTask("mysql-pu");
 		assertGetTasksWithNoTask("postgresql-pu");
 	}
-	
+
 	private void assertGetTasksWithOneTask(String persistenceUnit) {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		projectDao = new ProjectDao(entityManager);
-		
+
 		project1 = new Project();
 		project1.setTitle("First project");
 		project1.setDescription("This is my first project, hi!");
-		
+
 		projectDao.save(project1);
 
 		Task tempTask = new Task();

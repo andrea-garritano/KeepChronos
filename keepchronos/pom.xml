@@ -171,7 +171,6 @@
 		<module>app</module>
 		<module>database</module>
 		<module>mysql</module>
-		<module>postgresql</module>
 		</modules>
 
 </project>
