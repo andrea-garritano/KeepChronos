@@ -63,6 +63,12 @@ public class ProjectDaoIntegrationTest {
 		entityManagerFactory.close();
 	}
 
+	@Test
+	public void testSave() {
+		assertSave("mysql-pu");
+		assertSave("postgresql-pu");
+	}
+
 	private void assertEmptyGetAll(String persistenceUnit) {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
@@ -70,12 +76,6 @@ public class ProjectDaoIntegrationTest {
 		assertTrue(projectDao.getAll().size() == 0);
 		entityManager.close();
 		entityManagerFactory.close();
-	}
-
-	@Test
-	public void testSave() {
-		assertSave("mysql-pu");
-		assertSave("postgresql-pu");
 	}
 
 	@Test

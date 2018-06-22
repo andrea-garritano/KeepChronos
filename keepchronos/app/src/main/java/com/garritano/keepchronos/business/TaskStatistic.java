@@ -6,6 +6,7 @@ import com.garritano.keepchronos.dao.TaskDaoInterface;
 import com.garritano.keepchronos.model.Task;
 
 public class TaskStatistic {
+	
 	private TaskDaoInterface taskDaoInterface;
 
 	public TaskStatistic(TaskDaoInterface taskDaoInterface) {
