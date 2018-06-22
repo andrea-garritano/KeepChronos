@@ -14,6 +14,7 @@ import com.garritano.keepchronos.model.Project;
 import com.garritano.keepchronos.model.Task;
 
 public class TaskDaoIntegrationTest {
+	
 	private static EntityManagerFactory entityManagerFactory;
 	private EntityManager entityManager;
 	private TaskDao taskDao;
@@ -26,7 +27,7 @@ public class TaskDaoIntegrationTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		taskDao = new TaskDao(entityManager);
-		
+
 		// make sure to drop the Project table for testing
 		entityManager.getTransaction().begin();
 		entityManager.createNativeQuery("delete from Project").executeUpdate();
@@ -121,12 +122,12 @@ public class TaskDaoIntegrationTest {
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setDuration(20);
-		
+
 		task2 = new Task();
 		task2.setTitle("Second task");
 		task2.setDescription("This is my second task, wow!");
 		task2.setDuration(30);
-		
+
 		taskDao.save(task1);
 		taskDao.save(task2);
 
@@ -167,7 +168,7 @@ public class TaskDaoIntegrationTest {
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setDuration(20);
-		
+
 		taskDao.save(task1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store
@@ -193,7 +194,7 @@ public class TaskDaoIntegrationTest {
 		task1.setTitle("First task");
 		task1.setDescription("This is my first task, hi!");
 		task1.setDuration(20);
-		
+
 		taskDao.save(task1);
 		task1.setDescription("new description!");
 		taskDao.update(task1);
@@ -231,7 +232,7 @@ public class TaskDaoIntegrationTest {
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 		entityManager = entityManagerFactory.createEntityManager();
 		taskDao = new TaskDao(entityManager);
-		
+
 		project_another = new Project();
 		project_another.setTitle("Another project");
 		project_another.setDescription("Another exciting project!");
@@ -242,7 +243,7 @@ public class TaskDaoIntegrationTest {
 		task1.setDescription("This is my first task, hi!");
 		task1.setDuration(20);
 		task1.setProject(project_another);
-		
+
 		taskDao.save(task1);
 
 		// Clear Hibernate’s cache to make sure data is retrieved from the store

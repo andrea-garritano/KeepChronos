@@ -8,12 +8,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>app</artifactId>
-	
+
 	<properties>
 		<jacoco.data.file>${project.build.directory}/coveragereports/jacoco.exec</jacoco.data.file>
 		<jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
 	</properties>
-	
+
 	<dependencies>
 		<!-- Mockito dependence -->
 		<dependency>

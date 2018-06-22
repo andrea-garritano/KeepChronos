@@ -7,6 +7,7 @@ import com.garritano.keepchronos.model.Project;
 import com.garritano.keepchronos.model.Task;
 
 public class ProjectStatistic {
+	
 	private ProjectDaoInterface projectDaoInterface;
 
 	public ProjectStatistic(ProjectDaoInterface projectDaoInterface) {
