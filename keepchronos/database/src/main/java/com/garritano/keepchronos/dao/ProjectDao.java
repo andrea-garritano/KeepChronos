@@ -29,12 +29,6 @@ public class ProjectDao implements ProjectDaoInterface {
 		return entityManager.find(Project.class, id);
 	}
 
-	public void update(Project project) {
-		entityManager.getTransaction().begin();
-		entityManager.merge(project);
-		entityManager.getTransaction().commit();
-	}
-
 	public List<Task> getTasks(Project tempProject) {
 		return entityManager.createQuery("select t from Task t where project_id = :project_id", Task.class)
 				.setParameter("project_id", tempProject.getId()).getResultList();
