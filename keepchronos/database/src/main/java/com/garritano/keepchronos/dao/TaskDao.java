@@ -29,12 +29,6 @@ public class TaskDao implements TaskDaoInterface {
 		return entityManager.find(Task.class, id);
 	}
 
-	public void update(Task task) {
-		entityManager.getTransaction().begin();
-		entityManager.merge(task);
-		entityManager.getTransaction().commit();
-	}
-
 	public Project getProjectByTaskId(Long id) {
 		Task tempTask = entityManager.find(Task.class, id);
 		if (tempTask != null) {
